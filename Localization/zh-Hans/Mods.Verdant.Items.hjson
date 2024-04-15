@@ -1620,3 +1620,18 @@ ShellSnailItem: {
 	// DisplayName: Shell Snail Item
 	// Tooltip: ""
 }
+
+CorruptEffigy: {
+	// DisplayName: Corrupt Effigy
+	// Tooltip: ""
+}
+
+CrimsonEffigy: {
+	// DisplayName: Crimson Effigy
+	// Tooltip: ""
+}
+
+DeadleafPlatformItem: {
+	// DisplayName: Deadleaf Platform Item
+	// Tooltip: ""
+}

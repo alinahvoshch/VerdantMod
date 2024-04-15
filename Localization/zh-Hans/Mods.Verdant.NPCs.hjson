@@ -87,3 +87,17 @@ ShellSnail: {
 	// DisplayName: Shelly Snail
 	// Entry: Less of leaves makes this snail a little more hardy, but no less awesome.
 }
+
+// DimCore.DisplayName: Dim Core
+// GrimLayer.DisplayName: Grim Layer
+// ThornBeholder.DisplayName: Thorn Beholder
+
+BigThorn: {
+	// DisplayName: Big Thorn
+	// Entry: ""
+}
+
+SmallThorn: {
+	// DisplayName: Small Thorn
+	// Entry: ""
+}

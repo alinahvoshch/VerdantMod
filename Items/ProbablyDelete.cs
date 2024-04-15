@@ -1,7 +1,10 @@
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Verdant.Tiles.Verdant.Basic.Blocks;
 using Verdant.Tiles.Verdant.Basic.Plants;
+using Verdant.World.PestControlSubworld;
 
 namespace Verdant.Items;
 
@@ -29,7 +32,7 @@ public class ProbablyDelete : ModItem
 		Item.value = 10000;
 		Item.rare = ItemRarityID.Green;
 		Item.UseSound = SoundID.Item1;
-		Item.autoReuse = true;
+		Item.autoReuse = false;
         Item.placeStyle = 0;
         //Item.shoot = ModContent.ProjectileType<HealPlants>();
         //Item.createWall = ModContent.WallType<BluescreenWall>();
@@ -38,8 +41,20 @@ public class ProbablyDelete : ModItem
 
     public override bool? UseItem(Player player)
     {
-        Tile tile = Main.tile[Main.MouseWorld.ToTileCoordinates()];
-        tile.HasTile = false;
+        Point mouse = Main.MouseWorld.ToTileCoordinates();
+
+        Tile tile = Main.tile[mouse];
+        tile.Slope = SlopeType.SlopeDownLeft;
+
+        PestSubworld.FindPlaceDeadleaf(mouse.X, mouse.Y, Main.rand.NextBool() ? -1 : 1);
+        SubworldLibrary.SubworldSystem.Enter<PestSubworld>();
+        //for (int i = 0; i < Main.maxTilesX; ++i)
+        //    for (int j = 0; j < Main.maxTilesY; ++j)
+        //        Main.tile[i, j].ClearTile();
+
+        //new PestSubworld().GenerateLand(new(), new(new()));
+
+        //PestSubworld.Root(mouse.X, mouse.Y, 3);
         return true;
     }
 }

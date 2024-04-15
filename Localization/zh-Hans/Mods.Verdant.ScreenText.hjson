@@ -184,6 +184,7 @@ Apotheosis: {
 		1: 这不是简单的事情。
 		2: 需要准备就离开；
 		3: 我们会在这里。
+		// 4: Show us the Effigy again, and we shall work.
 	}
 
 	PestControl: {
@@ -191,6 +192,7 @@ Apotheosis: {
 		1: 你最好做好准备。
 		2: 必须控制害虫，平息入侵，
 		3: 你必须打败他们。 祝你好运。
+		// 4: Good luck.
 	}
 
 	# Lines after here are in-game.

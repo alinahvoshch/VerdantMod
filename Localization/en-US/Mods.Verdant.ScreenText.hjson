@@ -169,13 +169,13 @@ Apotheosis: {
 	# Feel free to skip these until they're added.
 	
 	PestControlNotif: {
-		0: With the wall defeated,
-		1: we are free to purify.
+		0: With the ancient Golem defeated,
+		1: we are ready to purify.
 		2: You've certainly noticed the corruption of this world, hm?
 		3: There's...an agreement we can come to.
 		4: This corruption is a ghost over a body;
 		5: and we can help purify the body and push back the ghost.
-		6: Simply give us, ah, this...effigy.
+		6: Simply give us, ah, this...Effigy.
 		7: Be prepared, be well, and I send you luck.
 	}
 
@@ -184,13 +184,15 @@ Apotheosis: {
 		1: This is no simple matter.
 		2: Leave if you need to prepare;
 		3: we shall be here.
+		4: Show us the Effigy again, and we shall work.
 	}
 
 	PestControl: {
 		0: Very well.
 		1: You best have prepared.
 		2: Pests must be controlled, invasion quelled,
-		3: and you must defeat them. Good luck.
+		3: and we are only to hope you are strong.
+		4: Good luck.
 	}
 
 	# Lines after here are in-game.

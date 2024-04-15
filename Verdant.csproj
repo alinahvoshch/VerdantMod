@@ -20,11 +20,17 @@
     <Reference Include="NetEasy">
       <HintPath>lib\NetEasy_v0.1.8.dll</HintPath>
     </Reference>
+    <Reference Include="NPCUtils">
+      <HintPath>lib\NPCUtils.dll</HintPath>
+    </Reference>
     <Reference Include="StockableShops">
       <HintPath>lib\StockableShops.dll</HintPath>
     </Reference>
     <Reference Include="StructureHelper">
       <HintPath>lib\StructureHelper.dll</HintPath>
+    </Reference>
+    <Reference Include="SubworldLibrary">
+      <HintPath>lib\SubworldLibrary.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

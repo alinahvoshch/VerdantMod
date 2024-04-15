@@ -11,15 +11,38 @@ using Verdant.Drawing;
 using Terraria.DataStructures;
 using Verdant.Items.Verdant.Misc;
 using Terraria.ObjectData;
+using Terraria.GameContent;
 
 namespace Verdant.Tiles.Verdant.Decor;
 
 internal class HardmodeApotheosis : ModTile, IAdditiveTile
 {
-    private int _effigyTimer = 0;
+    internal static float? blackoutTime = null;
+
+    private static int _effigyTimer = 0;
 
     private Asset<Texture2D> glowTex;
     private Asset<Texture2D> alphaTex;
+
+    public override void Load() => On_Main.DoDraw += HideAll;
+
+    private void HideAll(On_Main.orig_DoDraw orig, Main self, GameTime gameTime)
+    {
+        orig(self, gameTime);
+
+        if (blackoutTime is null)
+            return;
+
+        Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied, SamplerState.PointClamp, null, Main.Rasterizer);
+
+        Main.spriteBatch.Draw(TextureAssets.MagicPixel.Value, new Rectangle(-20, -20, Main.screenWidth + 40, Main.screenHeight + 40), Color.Black * (blackoutTime.Value / 360f));
+        ScreenTextManager.forceUpdate = true;
+        ScreenTextManager.Update();
+        ScreenTextManager.Draw();
+        ScreenTextManager.forceUpdate = false;
+
+        Main.spriteBatch.End();
+    }
 
     public override void Unload() => glowTex = alphaTex = null;
 
@@ -49,8 +72,8 @@ internal class HardmodeApotheosis : ModTile, IAdditiveTile
             Lighting.AddLight(p, new Vector3(0.2f, 0.06f, 0.12f));
         }
 
-        //if (Main.tile[i, j].TileFrameX == 0 && Main.tile[i, j].TileFrameY == 0)
-        //    CheckEffigy(i, j);
+        if (Main.tile[i, j].TileFrameX == 0 && Main.tile[i, j].TileFrameY == 0)
+            CheckEffigy(i, j);
     }
 
     private void CheckEffigy(int i, int j)
@@ -95,7 +118,7 @@ internal class HardmodeApotheosis : ModTile, IAdditiveTile
         if (_effigyTimer < 0)
             _effigyTimer = 0;
 
-        if (hasEffigy && _effigyTimer > 180)
+        if (hasEffigy && _effigyTimer > 120)
         {
             for (int k = 0; k < Main.maxItems; ++k)
             {
@@ -106,10 +129,10 @@ internal class HardmodeApotheosis : ModTile, IAdditiveTile
                 {
                     item.active = false;
 
-                    int[] types = new int[] { DustID.Blood, DustID.CorruptGibs, DustID.Corruption, DustID.CorruptionThorns };
+                    int[] types = [DustID.Blood, DustID.CorruptGibs, DustID.Corruption, DustID.CorruptionThorns];
 
                     if (item.type == ModContent.ItemType<CrimsonEffigy>())
-                        types = new int[] { DustID.Blood, DustID.CrimsonPlants, DustID.Crimstone };
+                        types = [DustID.Blood, DustID.CrimsonPlants, DustID.Crimstone];
 
                     for (int l = 0; l < 140; ++l)
                     {
@@ -126,7 +149,11 @@ internal class HardmodeApotheosis : ModTile, IAdditiveTile
             _effigyTimer = 0;
 
             ScreenTextManager.CurrentText = null;
-            DialogueCacheAutoloader.SyncPlay(nameof(ApotheosisDialogueCache) + ".PestControlWarning");
+
+            if (!ModContent.GetInstance<VerdantSystem>().apotheosisPestControlNotif)
+                DialogueCacheAutoloader.SyncPlay(nameof(ApotheosisDialogueCache) + ".PestControlWarning");
+            else
+                DialogueCacheAutoloader.SyncPlay(nameof(ApotheosisDialogueCache) + ".PestControl");
         }
     }
 
@@ -167,11 +194,11 @@ internal class HardmodeApotheosis : ModTile, IAdditiveTile
             return true;
         }
 
-        //if (Main.hardMode && !ModContent.GetInstance<VerdantSystem>().apotheosisPestControlNotif)
-        //{
-        //    DialogueCacheAutoloader.SyncPlay(nameof(ApotheosisDialogueCache) + ".PestControlNotif");
-        //    return true;
-        //}
+        if (Main.hardMode && !ModContent.GetInstance<VerdantSystem>().apotheosisPestControlNotif)
+        {
+            DialogueCacheAutoloader.SyncPlay(nameof(ApotheosisDialogueCache) + ".PestControlNotif");
+            return true;
+        }
 
         DialogueCacheAutoloader.Play(nameof(ApotheosisDialogueCache) + ".Idle", false);
         return true;

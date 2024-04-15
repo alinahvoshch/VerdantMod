@@ -22,7 +22,6 @@ internal class SmallThorn : ModNPC, IDrawAdditive
     private static Asset<Texture2D> auraTex;
 
     protected virtual Vector2 Size => new(10, 22);
-    protected virtual string BestiaryText => "The branch of a ???????, which explodes when approached. Holds eye contact well...too well.";
     protected virtual int ExplosionRadius => 80;
 
     protected int ExplosionRadiusSquared => ExplosionRadius * ExplosionRadius;
@@ -35,7 +34,6 @@ internal class SmallThorn : ModNPC, IDrawAdditive
     private Vector2 _offset = Vector2.Zero;
 
     public override void Unload() => auraTex = null;
-    public override bool IsLoadingEnabled(Mod mod) => false;
 
     public override void SetStaticDefaults()
     {
@@ -58,17 +56,10 @@ internal class SmallThorn : ModNPC, IDrawAdditive
         NPC.aiStyle = -1;
         NPC.HitSound = SoundID.Critter;
         NPC.DeathSound = SoundID.NPCDeath4;
-        SpawnModBiomes = new int[1] { ModContent.GetInstance<Scenes.VerdantBiome>().Type };
+        SpawnModBiomes = [ModContent.GetInstance<Scenes.VerdantBiome>().Type];
     }
 
-    public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
-    {
-        bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] 
-        {
-            new FlavorTextBestiaryInfoElement(BestiaryText),
-        });
-    }
-
+    public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry) => bestiaryEntry.AddInfo(this, "");
     public override void OnSpawn(IEntitySource source) => OwnedByCore = -1;
 
     public override void AI()
@@ -186,7 +177,7 @@ internal class SmallThorn : ModNPC, IDrawAdditive
         if (BombTimer <= ExplosionCutoff)
             scale *= factor;
 
-        float rot = (BombTimer * (1 / scale) * 0.005f) * (NPC.whoAmI % 2 == 0 ? -1 : 1);
+        float rot = (BombTimer * (1 / scale) * 0.05f) * (NPC.whoAmI % 2 == 0 ? -1 : 1);
         Color color = Color.Lerp(new Color(111, 113, 93), new Color(142, 0, 0), factor);
 
         Main.spriteBatch.Draw(auraTex.Value, NPC.Center - Main.screenPosition, null, color * 1.7f, rot, auraTex.Value.Size() / 2, scale, SpriteEffects.None, 0);
@@ -196,7 +187,6 @@ internal class SmallThorn : ModNPC, IDrawAdditive
 internal class BigThorn : SmallThorn
 {
     protected override Vector2 Size => new(16, 32);
-    protected override string BestiaryText => "A larger branch from a ???????. Does not hold eye contact as well as its smaller brethren. It is significantly more dangerous though.";
     protected override int ExplosionRadius => 125;
 
     public override void SetDefaults()

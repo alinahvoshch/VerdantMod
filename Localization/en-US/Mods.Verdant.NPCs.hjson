@@ -87,3 +87,17 @@ ShellSnail: {
 	DisplayName: Shelly Snail
 	Entry: Less of leaves makes this snail a little more hardy, but no less awesome.
 }
+
+DimCore.DisplayName: Dim Core
+GrimLayer.DisplayName: Grim Layer
+ThornBeholder.DisplayName: Thorn Beholder
+
+BigThorn: {
+	DisplayName: Large Thorn
+	Entry: "A larger branch from a Thorn Beholder. Does not hold eye contact as well as its smaller brethren. It is significantly more dangerous though."
+}
+
+SmallThorn: {
+	DisplayName: Thorn
+	Entry: The branch of a Thorn Beholder, which explodes when approached. Holds eye contact well...too well.
+}

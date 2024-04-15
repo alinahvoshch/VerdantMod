@@ -19,8 +19,6 @@ public class DimCore : ModNPC, IDrawAdditive
 
     private static Asset<Texture2D> _glowTex;
 
-    public override bool IsLoadingEnabled(Mod mod) => false;
-
     enum CoreState
     {
         Initialize,

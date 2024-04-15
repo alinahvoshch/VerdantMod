@@ -11,10 +11,11 @@ namespace Verdant.Systems.ScreenText
         internal static string Speaker = string.Empty;
         internal static ScreenText CurrentText = null;
         internal static RenderTarget2D textTarget = null;
+        internal static bool forceUpdate = false;
 
         internal static void Update()
         {
-            if (CurrentText != null && !Main.gameMenu && !Main.mapFullscreen)
+            if (CurrentText != null && (forceUpdate || (!Main.gameMenu && !Main.mapFullscreen)))
             {
                 CurrentText.Update(Main.gameTimeCache);
 
@@ -33,8 +34,7 @@ namespace Verdant.Systems.ScreenText
         {
             Main.spriteBatch.End();
 
-            if (textTarget is null)
-                textTarget = new RenderTarget2D(Main.graphics.GraphicsDevice, Main.displayWidth.Max(), Main.displayHeight.Max(), false, SurfaceFormat.Color, DepthFormat.None, 0, RenderTargetUsage.PreserveContents);
+            textTarget ??= new RenderTarget2D(Main.graphics.GraphicsDevice, Main.displayWidth.Max(), Main.displayHeight.Max(), false, SurfaceFormat.Color, DepthFormat.None, 0, RenderTargetUsage.PreserveContents);
 
             Main.graphics.GraphicsDevice.PresentationParameters.RenderTargetUsage = RenderTargetUsage.PreserveContents;
 

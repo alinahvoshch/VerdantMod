@@ -4,6 +4,7 @@ using Verdant.Items.Verdant.Blocks.Walls;
 using Verdant.Systems.ScreenText;
 using Verdant.Systems.ScreenText.Caches;
 using Verdant.Tiles.Verdant.Basic.Blocks;
+using Verdant.Tiles.Verdant.Decor.ThornFurniture;
 
 namespace Verdant.Items.Verdant.Blocks.PestControl;
 
@@ -15,6 +16,7 @@ public class ThornBlock : ApotheoticItem
     {
         QuickItem.AddRecipe(this, -1, 1, (ModContent.ItemType<ThornWallItem>(), 4));
         QuickItem.AddRecipe(ModContent.ItemType<ThornWallItem>(), TileID.WorkBenches, 4, (Type, 1));
+        QuickItem.AddRecipe(this, -1, 1, (ModContent.ItemType<DeadleafPlatform.DeadleafPlatformItem>(), 2));
     }
 
     [DialogueCacheKey(nameof(ApotheoticItem) + "." + nameof(ThornBlock))]

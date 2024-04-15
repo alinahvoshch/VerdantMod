@@ -27,6 +27,7 @@ public partial class VerdantMod : Mod
     public override void Load()
     {
         SquidHotkey = KeybindLoader.RegisterKeybind(this, "Verdant:SquidForm", Microsoft.Xna.Framework.Input.Keys.LeftShift);
+        NPCUtils.NPCUtils.TryLoadBestiaryHelper();
 
         if (!Main.dedServ)
         {
@@ -61,8 +62,11 @@ public partial class VerdantMod : Mod
         Flowers.Load(this);
     }
 
-    public override void Unload() => ForegroundManager.Unload();
-
+    public override void Unload()
+    {
+        ForegroundManager.Unload();
+        NPCUtils.NPCUtils.UnloadBestiaryHelper();
+    }
 
     public override void HandlePacket(BinaryReader reader, int whoAmI) => NetEasy.NetEasy.HandleModule(reader, whoAmI);
 

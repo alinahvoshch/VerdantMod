@@ -1,34 +1,19 @@
 ﻿using Microsoft.Xna.Framework;
-using System;
+using SubworldLibrary;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Verdant.World;
+using Verdant.World.PestControlSubworld;
 
 namespace Verdant.Systems.PestControl;
 
+[JITWhenModsEnabled("SubworldLibrary")]
 internal class PestPlayer : ModPlayer
 {
     public bool inPestControl = false;
 
-    public override bool IsLoadingEnabled(Mod mod) => false;
-
-    public bool InPestControl
-    {
-        get
-        {
-            if (!inPestControl)
-                return false;
-
-            if (ModContent.GetInstance<VerdantGenSystem>().apotheosisLocation is null)
-                return false;
-
-            var apoth = ModContent.GetInstance<VerdantGenSystem>().apotheosisLocation.Value;
-            var loc = new Vector2(apoth.X, apoth.Y).ToWorldCoordinates();
-
-            return ModContent.GetInstance<PestSystem>().pestControlActive && Player.DistanceSQ(loc) / (16 * 16) < 120 * 120;
-        }
-    }
+    public bool InPestControl => SubworldSystem.Current is PestSubworld;
 
     public override void ResetEffects()
     {

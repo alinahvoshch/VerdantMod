@@ -14,12 +14,14 @@ public class GrimLayer : ModNPC
         Move,
     }
 
-    public override bool IsLoadingEnabled(Mod mod) => false;
-
     private Player Target => Main.player[NPC.target];
-
     private ref float TargetThorn => ref NPC.ai[0];
-    private LayerState State { get => (LayerState)NPC.ai[1]; set => NPC.ai[1] = (float)value; }
+
+    private LayerState State 
+    { 
+        get => (LayerState)NPC.ai[1]; 
+        set => NPC.ai[1] = (float)value; 
+    }
 
     //private RealtimeAction Pillar;
 

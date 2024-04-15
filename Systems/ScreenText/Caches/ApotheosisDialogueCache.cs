@@ -16,7 +16,9 @@ using Verdant.Items.Verdant.Tools;
 using Verdant.Projectiles.Misc;
 using Verdant.Systems.PestControl;
 using Verdant.Systems.ScreenText.Animations;
+using Verdant.Tiles.Verdant.Decor;
 using Verdant.World;
+using Verdant.World.PestControlSubworld;
 
 namespace Verdant.Systems.ScreenText.Caches
 {
@@ -492,8 +494,6 @@ namespace Verdant.Systems.ScreenText.Caches
         [DialogueCacheKey(nameof(ApotheosisDialogueCache) + ".PestControl")]
         public static ScreenText PestControlDialogue(bool forServer)
         {
-            ModContent.GetInstance<PestSystem>().pestControlActive = true;
-
             if (forServer)
                 return null;
 
@@ -503,7 +503,12 @@ namespace Verdant.Systems.ScreenText.Caches
             return new ScreenText("$Mods.Verdant.ScreenText.Apotheosis.PestControl.0") { speaker = Language.GetTextValue("Mods.Verdant.ApotheosisName"), speakerColor = Color.Lime }.
                 With(new ScreenText("$Mods.Verdant.ScreenText.Apotheosis.PestControl.1")).
                 With(new ScreenText("$Mods.Verdant.ScreenText.Apotheosis.PestControl.2")).
-                FinishWith(new ScreenText("$Mods.Verdant.ScreenText.Apotheosis.PestControl.3"));
+                With(new ScreenText("$Mods.Verdant.ScreenText.Apotheosis.PestControl.3"), 
+                (_) => {
+                    HardmodeApotheosis.blackoutTime = 360;
+                    SubworldLibrary.SubworldSystem.Enter<PestSubworld>();
+                }).
+                FinishWith(new ScreenText("$Mods.Verdant.ScreenText.Apotheosis.PestControl.4"));
         }
 
         internal static ScreenText ChatLength(string text, int repeats, bool useName = true)

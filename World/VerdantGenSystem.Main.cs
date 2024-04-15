@@ -67,8 +67,7 @@ public partial class VerdantGenSystem : ModSystem
             return x;
         }
 
-        static int GetCenterY() => ModContent.GetInstance<VerdantClientConfig>().JungleSpawn ?
-            WorldGen.genRand.Next((int)(Main.maxTilesY / 2.7f), (int)(Main.maxTilesY / 1.9f)) :
+        static int GetCenterY() => ModContent.GetInstance<VerdantClientConfig>().JungleSpawn ? WorldGen.genRand.Next((int)(Main.maxTilesY / 2.7f), (int)(Main.maxTilesY / 1.9f)) :
             WorldGen.genRand.Next((int)(Main.maxTilesY / 2.1f), (int)(Main.maxTilesY / 1.65f));
 
         Point center = new(GetCenterX(), GetCenterY());
