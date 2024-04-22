@@ -12,3 +12,8 @@ NearApotheosisBiome: {
 	TownNPCDialogueName: 天神周围
 	DisplayName: 天神周围
 }
+
+PestControlBiome: {
+	// DisplayName: Pest Control Biome
+	// TownNPCDialogueName: the Pest Control Biome
+}

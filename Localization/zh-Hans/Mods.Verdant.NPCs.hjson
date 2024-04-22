@@ -76,8 +76,6 @@ VerdantBulbSnail: {
 	// Entry: Did this snail eat a light bulb? No. Did it eat a lightbulb? Perhaps.
 }
 
-# Sorry for the below entry being really long, I just think it's funny.
-
 VerdantRedGrassSnail: {
 	DisplayName: 叶子蜗牛
 	// Entry: They say thousands of years ago, a mad scientist did the impossible - combined plant and animal together. The beastly creation, eschewed by man and feared by nature, stands on its own within this cruel and unforgiving world. These creatures began to seek all facets of life - power, love, friendship and most of all, just being a little guy. Some might say that in this quest, and this quest alone, they had succeeded. However, they also say they heard this from someone else in the town and they just don't really remember who, so stop asking and buy something. At the end of the day, this snail is leafy, and that's all you need to know about it.
@@ -88,16 +86,42 @@ ShellSnail: {
 	// Entry: Less of leaves makes this snail a little more hardy, but no less awesome.
 }
 
-// DimCore.DisplayName: Dim Core
-// GrimLayer.DisplayName: Grim Layer
-// ThornBeholder.DisplayName: Thorn Beholder
+DimCore: {
+	// DisplayName: Dim Core
+	// Entry: A rotten, dying light bulb encased in fetid sludge. Glows slightly, and sounds absolutely revolting.
+}
+
+GrimLayer: {
+	// DisplayName: Living Thorn
+	// Entry: This block decided to life after death. How does it move? Can it see? Who knows.
+}
+
+ThornBeholder: {
+	// DisplayName: Thorn Beholder
+	// Entry: The eye has seen far too much. A former ent, perhaps even a dryad, lost to the whim of corruption.
+}
 
 BigThorn: {
-	// DisplayName: Big Thorn
-	// Entry: ""
+	// DisplayName: Large Thorn
+	// Entry: A larger branch from a Thorn Beholder. Does not hold eye contact as well as its smaller brethren. It is significantly more dangerous though.
 }
 
 SmallThorn: {
-	// DisplayName: Small Thorn
+	// DisplayName: Thorn
+	// Entry: The branch of a Thorn Beholder, which explodes when approached. Holds eye contact well...too well.
+}
+
+CoreOrbiter: {
+	// DisplayName: Core Orbiter
+	// Entry: Parts of dead thorns, floating around a Dim Core. Despite their look, these are soft, rotten to the touch.
+}
+
+PutridNeuroma: {
+	// DisplayName: Putrid Neuroma
+	// Entry: Zombified, immobile, and meaty. This thing can take a beating, but it can't send much more than pain impulses.
+}
+
+Connection: {
+	// DisplayName: Connection
 	// Entry: ""
 }

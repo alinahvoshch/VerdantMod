@@ -1,10 +1,10 @@
 ﻿using Microsoft.Xna.Framework;
+using System;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.UI;
 using Verdant.NPCs.Enemy.PestControl;
-using Verdant.World;
 
 namespace Verdant.Systems.PestControl;
 
@@ -12,8 +12,9 @@ internal class PestSystem : ModSystem
 {
     public bool pestControlActive = false;
     public float pestControlProgress = 0;
+    public float pestControlMiscTimer = 0;
 
-    public List<int> trackedEnemies = new List<int>();
+    public List<int> trackedEnemies = [];
     public float lastSpawnProgress = 0;
 
     public override void ModifyInterfaceLayers(List<GameInterfaceLayer> layers)
@@ -32,10 +33,19 @@ internal class PestSystem : ModSystem
         }
     }
 
+    public override void ModifySunLightColor(ref Color tileColor, ref Color backgroundColor)
+    {
+        pestControlMiscTimer++;
+
+        if (pestControlActive)
+            backgroundColor = tileColor = new Color(145, 137, 94).MultiplyRGB(Color.Lerp(Color.White, Color.Black, MathF.Sin(pestControlMiscTimer * 0.025f) * 0.1f + 0.5f));
+    }
+
     public override void PostUpdateWorld()
     {
         if (pestControlActive)
         {
+            return;
             if (pestControlProgress > 1)
             {
                 pestControlActive = false;

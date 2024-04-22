@@ -12,3 +12,8 @@ NearApotheosisBiome: {
 	TownNPCDialogueName: near the Apotheosis
 	DisplayName: Near the Apotheosis
 }
+
+PestControlBiome: {
+	DisplayName: Pest Control Biome
+	TownNPCDialogueName: the Pest Control Biome
+}

@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using NPCUtils;
 using ReLogic.Content;
 using System;
 using System.IO;
@@ -55,11 +56,12 @@ public class DimCore : ModNPC, IDrawAdditive
         NPC.aiStyle = -1;
         NPC.HitSound = SoundID.Critter;
         NPC.DeathSound = SoundID.NPCDeath4;
-        SpawnModBiomes = new int[1] { ModContent.GetInstance<Scenes.VerdantBiome>().Type };
+        SpawnModBiomes = [ModContent.GetInstance<Scenes.VerdantBiome>().Type];
     }
 
     public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
     {
+        bestiaryEntry.AddInfo(this, "");
         bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
             new FlavorTextBestiaryInfoElement("A light bulb that has been completely corrupted. The gel-like body holds a pus-like substance and a dimmed light."),
         });
@@ -103,6 +105,7 @@ public class DimCore : ModNPC, IDrawAdditive
     private void FindThorn()
     {
         int count = 0;
+
         foreach (var npc in ActiveEntities.NPCs)
         {
             if (npc.active && (npc.type == ModContent.NPCType<Thorns.SmallThorn>() || npc.type == ModContent.NPCType<Thorns.BigThorn>()))
@@ -188,9 +191,7 @@ public class DimCore : ModNPC, IDrawAdditive
     {
         private Vector2 _offset = Vector2.Zero;
 
-        public override bool IsLoadingEnabled(Mod mod) => false;
-
-        // public override void SetStaticDefaults() => DisplayName.SetDefault("Thorny Detritus");
+        public override void SetStaticDefaults() => NPCID.Sets.ImmuneToRegularBuffs[Type] = true;
 
         public override void SetDefaults()
         {
@@ -206,19 +207,10 @@ public class DimCore : ModNPC, IDrawAdditive
             NPC.HitSound = SoundID.Critter;
             NPC.DeathSound = SoundID.NPCDeath4;
 
-            for (int i = 0; i < NPC.buffImmune.Length; ++i)
-                NPC.buffImmune[i] = true;
-
-            SpawnModBiomes = new int[1] { ModContent.GetInstance<Scenes.VerdantBiome>().Type };
+            SpawnModBiomes = [ModContent.GetInstance<Scenes.VerdantBiome>().Type];
         }
 
-        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
-        {
-            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
-                new FlavorTextBestiaryInfoElement("Parts of dead thorns, floating around a Dim Core. Despite their look, these are soft to the touch...almost comfortable."),
-            });
-        }
-
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry) => bestiaryEntry.AddInfo(this, "");
         public override void AI() => OrbiterAI(NPC, Main.npc[(int)NPC.ai[0]], ref _offset);
 
         public override void SendExtraAI(BinaryWriter writer) => writer.WriteVector2(_offset);

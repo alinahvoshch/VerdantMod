@@ -3,13 +3,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Terraria.GameContent.Generation;
-using Terraria.ID;
 using Terraria.IO;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.WorldBuilding;
 using Verdant.Tiles.Verdant.Basic.Blocks;
-using Verdant.Tiles.Verdant.Basic.PestControl;
 using Microsoft.Xna.Framework;
 using Verdant.Tiles.Verdant.Decor;
 using Verdant.Walls;
@@ -94,16 +92,19 @@ internal class PestSubworld : Subworld
             if (Main.tile[x + (direction * i), y].HasTile)
                 return;
 
-            WorldGen.PlaceTile(x + (direction * i), y, ModContent.TileType<DeadleafPlatform>(), true);
+            WorldGen.PlaceTile(x + (direction * i), y, i == 0 ? ModContent.TileType<ThornTile>() : ModContent.TileType<DeadleafPlatform>(), true);
 
-            if (hammer)
+            if (hammer && i != 0)
             {
                 WorldGen.PoundPlatform(x + (direction * i), y);
                 hammer = false;
             }
 
-            if (i < length - 1 && WorldGen.genRand.NextBool(growthChance))
+            if (i == 0 || (i < length - 1 && WorldGen.genRand.NextBool(growthChance)))
             {
+                if (i == 0)
+                    WorldGen.PlaceTile(x + (direction * i), y + 1, ModContent.TileType<ThornTile>(), true);
+
                 y--;
                 growthChance += 1;
                 hammer = true;
