@@ -110,12 +110,16 @@ public class Axolotl : ModNPC
         {
             for (int j = spawnInfo.SpawnTileY - Distance; j < spawnInfo.SpawnTileY + Distance; ++j)
             {
+                if (!WorldGen.InWorld(i, j))
+                    continue;
+
                 int wall = Main.tile[i, j].WallType;
 
                 if (wall == ModContent.WallType<BubblingWall_Unsafe>() || wall == ModContent.WallType<BubblingWall>())
                     return 6f * (spawnInfo.PlayerInTown ? 1.75f : 1f);
             }
         }
+
         return 0;
     }
 }

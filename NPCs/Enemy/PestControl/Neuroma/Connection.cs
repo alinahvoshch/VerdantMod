@@ -58,6 +58,7 @@ public class Connection : ModNPC
     public override bool? CanBeHitByItem(Player player, Item item) => false;
     public override bool CanBeHitByNPC(NPC attacker) => false;
     public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry) => bestiaryEntry.AddInfo(this, "");
+    public override bool CheckActive() => false;
 
     public override void AI()
     {

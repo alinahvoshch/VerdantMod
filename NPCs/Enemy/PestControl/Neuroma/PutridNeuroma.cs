@@ -8,11 +8,12 @@ using Terraria.GameContent;
 using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Verdant.Systems.NPCCommon;
 using Verdant.Tiles;
 
 namespace Verdant.NPCs.Enemy.PestControl.Neuroma;
 
-public class PutridNeuroma : ModNPC
+public class PutridNeuroma : ModNPC, IPestSpawnNPC
 {
     private List<Connection> connections = null;
 
@@ -37,6 +38,7 @@ public class PutridNeuroma : ModNPC
         SpawnModBiomes = [ModContent.GetInstance<Scenes.VerdantBiome>().Type];
     }
 
+    public override bool CheckActive() => false;
     public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry) => bestiaryEntry.AddInfo(this, "");
 
     public override void AI()
@@ -64,7 +66,9 @@ public class PutridNeuroma : ModNPC
             }
         }
 
-        if (connections.All(x => !x.NPC.active || x.NPC.type != ModContent.NPCType<Connection>()))
+        connections.RemoveAll(x => !x.NPC.active || x.NPC.type != ModContent.NPCType<Connection>());
+
+        if (connections.Count == 0)
         {
             NPC.life = 0;
             NPC.NPCLoot();
@@ -95,6 +99,9 @@ public class PutridNeuroma : ModNPC
             {
                 int x = (int)NPC.Center.X / 16 + i;
                 int y = (int)NPC.Center.Y / 16 + j;
+
+                if (!WorldGen.InWorld(x, y, 5))
+                    continue;
 
                 if (WorldGen.SolidTile(x, y) && TileHelper.HasOpenAdjacent(x, y))
                     points.Add(new(x, y));
@@ -138,5 +145,22 @@ public class PutridNeuroma : ModNPC
 
         spriteBatch.Draw(tex, NPC.Center - screenPos, null, drawColor, NPC.rotation, NPC.Size / 2f, scale * 0.9f, SpriteEffects.None, 0);
         return false;
+    }
+
+    public Point GetSpawnLocation()
+    {
+        while (true)
+        {
+            Point pos = new Point(Main.rand.Next(20, Main.maxTilesX - 20), Main.rand.Next(100, Main.maxTilesY - 100));
+
+            for (int i = -20; i < 20; ++i)
+            {
+                for (int j = -20; j < 20; ++j)
+                {
+                    if (WorldGen.SolidTile(pos.X + i, pos.Y + j))
+                        return pos;
+                }
+            }
+        }
     }
 }

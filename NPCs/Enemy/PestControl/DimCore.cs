@@ -1,8 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using NPCUtils;
 using ReLogic.Content;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using Terraria;
 using Terraria.GameContent;
@@ -30,6 +30,8 @@ public class DimCore : ModNPC, IDrawAdditive
 
     private ref float TargetThorn => ref NPC.ai[0];
     private CoreState State { get => (CoreState)NPC.ai[1]; set => NPC.ai[1] = (float)value; }
+
+    internal readonly HashSet<int> ownedThorns = [];
 
     public override void Unload() => _glowTex = null;
 
@@ -98,6 +100,21 @@ public class DimCore : ModNPC, IDrawAdditive
                 NPC.velocity = NPC.velocity.SafeNormalize(Vector2.Zero) * MaxSpeed;
         }
 
+        foreach (var npc in ActiveEntities.NPCs)
+        {
+            if (npc.active && npc.whoAmI != NPC.whoAmI)
+            {
+                if (npc.type == ModContent.NPCType<DimCore>() && npc.DistanceSQ(NPC.Center) < npc.width * npc.width)
+                {
+                    npc.velocity = npc.DirectionFrom(NPC.Center) * npc.velocity.Length();
+                    NPC.velocity = NPC.DirectionFrom(npc.Center) * NPC.velocity.Length();
+
+                    NPC.position += NPC.velocity;
+                    npc.position += npc.velocity;
+                }
+            }
+        }
+
         NPC.rotation = NPC.velocity.X * 0.08f;
         Lighting.AddLight(NPC.Center, new Vector3(1, 0.86f, 0.3f));
     }
@@ -108,20 +125,23 @@ public class DimCore : ModNPC, IDrawAdditive
 
         foreach (var npc in ActiveEntities.NPCs)
         {
-            if (npc.active && (npc.type == ModContent.NPCType<Thorns.SmallThorn>() || npc.type == ModContent.NPCType<Thorns.BigThorn>()))
+            if (npc.active && npc.whoAmI != NPC.whoAmI)
             {
-                if (count >= 3)
-                    return;
-
-                float dist = NPC.DistanceSQ(npc.Center);
-
-                if (npc.ai[3] == -1 && dist > Radius * Radius * 1.02f)
+                if (npc.type == ModContent.NPCType<Thorns.SmallThorn>() || npc.type == ModContent.NPCType<Thorns.BigThorn>())
                 {
-                    TargetThorn = npc.whoAmI;
-                    return;
+                    if (count >= 3)
+                        continue;
+
+                    float dist = NPC.DistanceSQ(npc.Center);
+
+                    if (npc.ai[3] == -1 && dist > Radius * Radius * 1.02f)
+                    {
+                        TargetThorn = npc.whoAmI;
+                        return;
+                    }
+                    else if (npc.ai[3] == NPC.whoAmI)
+                        count++;
                 }
-                else if (npc.ai[3] == NPC.whoAmI)
-                    count++;
             }
         }
     }
@@ -145,7 +165,7 @@ public class DimCore : ModNPC, IDrawAdditive
     {
         Texture2D tex = TextureAssets.Npc[Type].Value;
         float sin = MathF.Sin((float)NPC.frameCounter * 0.06f) * 0.25f;
-        Vector2 scale = new Vector2(sin + 1, -sin + 1);
+        Vector2 scale = new(sin + 1, -sin + 1);
 
         spriteBatch.Draw(tex, NPC.Center - screenPos, null, drawColor, NPC.rotation, NPC.Size / 2f, scale * 0.9f, SpriteEffects.None, 0);
         return false;
@@ -158,7 +178,7 @@ public class DimCore : ModNPC, IDrawAdditive
 
         Texture2D tex = _glowTex.Value;
         float sin = MathF.Sin((float)NPC.frameCounter * 0.01f) * 0.1f;
-        Vector2 scale = new Vector2(sin + 1, -sin + 1);
+        Vector2 scale = new(sin + 1, -sin + 1);
 
         Main.spriteBatch.Draw(tex, NPC.Center - Main.screenPosition, null, new Color(145, 119, 55) * 0.55f, NPC.rotation, tex.Size() / 2f, scale * 1.3f, SpriteEffects.None, 0);
         Main.spriteBatch.Draw(tex, NPC.Center - Main.screenPosition, null, new Color(145, 119, 55) * 0.35f, NPC.rotation, tex.Size() / 2f, scale * 0.9f, SpriteEffects.None, 0);

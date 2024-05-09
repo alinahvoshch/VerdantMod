@@ -125,3 +125,8 @@ Connection: {
 	DisplayName: Connection
 	Entry: ""
 }
+
+Rotsludge: {
+	DisplayName: Rotsludge
+	Entry: ""
+}

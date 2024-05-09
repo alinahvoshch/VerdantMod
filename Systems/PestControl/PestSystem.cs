@@ -2,9 +2,12 @@
 using System;
 using System.Collections.Generic;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.UI;
 using Verdant.NPCs.Enemy.PestControl;
+using Verdant.NPCs.Enemy.PestControl.Neuroma;
+using Verdant.Systems.NPCCommon;
 
 namespace Verdant.Systems.PestControl;
 
@@ -45,7 +48,6 @@ internal class PestSystem : ModSystem
     {
         if (pestControlActive)
         {
-            return;
             if (pestControlProgress > 1)
             {
                 pestControlActive = false;
@@ -60,7 +62,8 @@ internal class PestSystem : ModSystem
             List<int> types = new()
             {
                 ModContent.NPCType<ThornBeholder>(),
-                ModContent.NPCType<DimCore>()
+                ModContent.NPCType<DimCore>(),
+                ModContent.NPCType<PutridNeuroma>()
             };
 
             trackedEnemies.RemoveAll(x => !Main.npc[x].active || !types.Contains(Main.npc[x].type));
@@ -71,11 +74,25 @@ internal class PestSystem : ModSystem
             if ((int)(pestControlProgress * 10000) % 50 == 0 && (int)(pestControlProgress * 10000) != (int)(lastSpawnProgress * 10000))
             {
                 var loc = Main.LocalPlayer.Center;
-                var pos = loc + new Vector2(0, -1000).RotatedByRandom(MathHelper.PiOver2);
+                int type = Main.rand.Next(types);
+                var npcRef = ContentSamples.NpcsByNetId[type];
+                var pos = npcRef.ModNPC is IPestSpawnNPC pest ? pest.GetSpawnLocation() : GetDefaultSpawnLocation(npcRef);
+                pos = pos.ToWorldCoordinates().ToPoint();
 
-                trackedEnemies.Add(NPC.NewNPC(Entity.GetSource_NaturalSpawn(), (int)pos.X, (int)pos.Y, Main.rand.Next(types)));
+                trackedEnemies.Add(NPC.NewNPC(Entity.GetSource_NaturalSpawn(), pos.X, pos.Y, type));
                 lastSpawnProgress = pestControlProgress;
             }
+        }
+    }
+
+    private static Point GetDefaultSpawnLocation(NPC npc)
+    {
+        while (true)
+        {
+            Point pos = new(Main.rand.Next(20, Main.maxTilesX - 20), Main.rand.Next(100, Main.maxTilesY - 100));
+
+            if (!Collision.SolidCollision(pos.ToWorldCoordinates(), npc.width, npc.height))
+                return pos;
         }
     }
 }

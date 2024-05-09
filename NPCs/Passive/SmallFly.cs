@@ -111,8 +111,10 @@ namespace Verdant.NPCs.Passive
         {
             if (NPC.life <= 0)
             {
-                for (int i = 0; i < 2; ++i)
-                    Gore.NewGore(NPC.GetSource_OnHurt(null), NPC.Center, new Vector2(Main.rand.NextFloat(-3, 3), Main.rand.NextFloat(-3, 3)), Mod.Find<ModGore>("LushLeaf").Type);
+                if (Main.netMode != NetmodeID.Server)
+                    for (int i = 0; i < 2; ++i)
+                        Gore.NewGore(NPC.GetSource_OnHurt(null), NPC.Center, new Vector2(Main.rand.NextFloat(-3, 3), Main.rand.NextFloat(-3, 3)), Mod.Find<ModGore>("LushLeaf").Type);
+
                 for (int i = 0; i < 6; ++i)
                     Dust.NewDust(NPC.Center, 26, 18, DustID.Grass, Main.rand.NextFloat(-3, 3), Main.rand.NextFloat(-3, 3));
             }

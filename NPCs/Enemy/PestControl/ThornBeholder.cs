@@ -24,7 +24,7 @@ public class ThornBeholder : ModNPC
     private ref float Timer => ref NPC.ai[0];
     private ThornState State { get => (ThornState)NPC.ai[1]; set => NPC.ai[1] = (float)value; }
 
-    private List<int> _thorns = new();
+    private readonly List<int> _thorns = [];
 
     public override void SetStaticDefaults() => Main.npcFrameCount[NPC.type] = 2;
 
@@ -42,9 +42,10 @@ public class ThornBeholder : ModNPC
         NPC.aiStyle = -1;
         NPC.HitSound = SoundID.Critter;
         NPC.DeathSound = SoundID.NPCDeath4;
-        SpawnModBiomes = new int[1] { ModContent.GetInstance<Scenes.VerdantBiome>().Type };
+        SpawnModBiomes = [ModContent.GetInstance<Scenes.VerdantBiome>().Type];
     }
 
+    public override bool CheckActive() => false;
     public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry) => bestiaryEntry.AddInfo(this, "");
 
     public override void AI()
@@ -85,6 +86,12 @@ public class ThornBeholder : ModNPC
 
             if (_thorns.Count >= MaxThorns)
                 Timer = 0;
+        }
+
+        if (!Collision.SolidCollision(NPC.position, NPC.width, NPC.height))
+        {
+            State = ThornState.Planting;
+            Timer = 0;
         }
     }
 

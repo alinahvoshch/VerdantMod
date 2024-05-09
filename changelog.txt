@@ -1,2 +1,2 @@
-- Fixed this mod overriding other mods that may modify acorns similarly
-- Made sell prices for all armor way more consistent
+- Fixed some serverside issues
+- Fixed Axolotl going OOB in spawning check
