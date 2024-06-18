@@ -1,2 +1,3 @@
-- Fixed this mod overriding other mods that may modify acorns similarly
-- Made sell prices for all armor way more consistent
+- Updated Stockable Shops reference to fix price issue
+- Fixed Apotheotic Treeband set bonus not providing an additional 10 defense
+- Fixed Red Petal Wall not being safe for houses

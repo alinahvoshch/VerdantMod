@@ -21,18 +21,18 @@ internal class DryadStock : StockedShop
 
     public override void SetupStock(NPC npc)
     {
-        FullStock.Add(new ShopItem(Condition.DownedEyeOfCthulhu, new Item(ModContent.ItemType<GreenCrystalItem>(), 5) { shopCustomPrice = Item.buyPrice(0, 0, 25, 0) }));
+        FullStock.Add(new ShopItem(Condition.DownedEyeOfCthulhu, new Item(ModContent.ItemType<GreenCrystalItem>(), 5) { shopCustomPrice = Item.sellPrice(0, 0, 25, 0) }));
 
         var condition = Language.GetText("Mods.Verdant.DryadShop.Condition");
 
         FullStock.Add(new ShopItem(new Condition(condition, () => _stockRotation), 
-            new Item(ModContent.ItemType<HardyVineBook>()) { shopCustomPrice = Item.buyPrice(0, 15, 0, 0) }));
+            new Item(ModContent.ItemType<HardyVineBook>()) { shopCustomPrice = Item.sellPrice(0, 15, 0, 0) }));
         FullStock.Add(new ShopItem(new Condition(condition, () => _stockRotation),
-            new Item(ModContent.ItemType<LeafBook>()) { shopCustomPrice = Item.buyPrice(0, 15, 0, 0) }));
+            new Item(ModContent.ItemType<LeafBook>()) { shopCustomPrice = Item.sellPrice(0, 15, 0, 0) }));
         FullStock.Add(new ShopItem(new Condition(condition, () => !_stockRotation),
-            new Item(ModContent.ItemType<LightbulbBook>()) { shopCustomPrice = Item.buyPrice(0, 15, 0, 0) }));
+            new Item(ModContent.ItemType<LightbulbBook>()) { shopCustomPrice = Item.sellPrice(0, 15, 0, 0) }));
         FullStock.Add(new ShopItem(new Condition(condition, () => !_stockRotation),
-            new Item(ModContent.ItemType<RockBook>()) { shopCustomPrice = Item.buyPrice(0, 8, 0, 0) }));
+            new Item(ModContent.ItemType<RockBook>()) { shopCustomPrice = Item.sellPrice(0, 8, 0, 0) }));
 
         _dayCounter = Main.LocalPlayer.GetModPlayer<VerdantPlayer>().ZoneVerdant ? 2 : 0;
         _stockRotation = !_stockRotation;
