@@ -56,6 +56,7 @@ public class ApotheoticTreeHelmet : ModItem, ITallHat
     {
         player.setBonus = Language.GetTextValue("Mods.Verdant.SetBonuses.Apotheotic.Tree");
         player.GetModPlayer<TreeHelmetPlayer>().setBonus = true;
+        player.statDefense += 10;
     }
 
     public override void AddRecipes()
