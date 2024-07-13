@@ -21,7 +21,6 @@ internal class MysteriaTree : ModTile
     {
         QuickTile.SetAll(this, 0, DustID.WoodFurniture, SoundID.Dig, new Color(124, 93, 68), true, false);
 
-        //Main.tileBlendAll[Type] = true;
         Main.tileBrick[Type] = true;
         Main.tileMergeDirt[Type] = false;
     }
@@ -49,18 +48,8 @@ internal class MysteriaTree : ModTile
 
     public static bool Generate(int x, int y, int dir = 0, UnifiedRandom random = null)
     {
-        int height = random.Next(3, 8);
-        int[] widths = new int[7] { random.Next(4, 7), random.Next(3, 5), random.Next(2, 4), random.Next(1, 3), 1, 1, 1 };
-        int index = 0;
-
-        random ??= Main.rand;
-
-        bool[] openSpaces = CheckOpenSpace(x, y, widths, height, random);
-
-        if ((!openSpaces[0] && !openSpaces[1]) || (dir == -1 && !openSpaces[0]) || (dir == 1 && !openSpaces[1]))
+        if (!GetGenerationInfo(x, y, ref dir, ref random, out int height, out int[] widths, out int index, out bool[] openSpaces))
             return false;
-
-        dir = dir == 0 ? GetValidDirection(x, y, widths, height, openSpaces, random) : dir;
 
         for (int j = y; j > y - height; --j)
         {
@@ -70,6 +59,9 @@ internal class MysteriaTree : ModTile
             {
                 WorldGen.PlaceTile(x + (i * dir), j, ModContent.TileType<MysteriaTree>(), true, true);
                 WorldGen.PlaceTile(x + (i * dir), j + 1, ModContent.TileType<MysteriaTree>(), true, true);
+
+                if (Main.netMode == NetmodeID.Server)
+                    NetMessage.SendTileSquare(-1, x + (i * dir), j, 1, 2);
             }
 
             if (index == height - 1)
@@ -79,15 +71,38 @@ internal class MysteriaTree : ModTile
                 if (random.NextBool(3))
                 {
                     WorldGen.PlaceTile(x, j - 1, ModContent.TileType<MysteriaTree>(), true, true);
+
+                    if (Main.netMode == NetmodeID.Server)
+                        NetMessage.SendTileSquare(-1, x, j - 1);
+
                     off = 1;
                 }
 
                 WorldGen.PlaceTile(x, j - 1 - off, ModContent.TileType<MysteriaTreeTop>(), true, true);
+
+                if (Main.netMode == NetmodeID.Server)
+                    NetMessage.SendTileSquare(-1, x, j - 1 - off);
             }
 
             x += width * dir;
             index++;
         }
+        return true;
+    }
+
+    public static bool GetGenerationInfo(int x, int y, ref int dir, ref UnifiedRandom random, out int height, out int[] widths, out int index, out bool[] openSpaces)
+    {
+        random ??= Main.rand;
+
+        height = random.Next(3, 8);
+        widths = [random.Next(4, 7), random.Next(3, 5), random.Next(2, 4), random.Next(1, 3), 1, 1, 1];
+        index = 0;
+        openSpaces = CheckOpenSpace(x, y, widths, height, random);
+
+        if ((!openSpaces[0] && !openSpaces[1]) || (dir == -1 && !openSpaces[0]) || (dir == 1 && !openSpaces[1]))
+            return false;
+
+        dir = dir == 0 ? GetValidDirection(x, y, widths, height, openSpaces, random) : dir;
         return true;
     }
 
@@ -164,18 +179,8 @@ internal class MysteriaTree : ModTile
 
     public static Queue<RealtimeStep> RealtimeGenerate(int x, int y, int dir = 0, UnifiedRandom random = null)
     {
-        int[] widths = new int[7] { random.Next(4, 7), random.Next(3, 5), random.Next(2, 4), random.Next(1, 3), 1, 1, 1 };
-        int height = random.Next(3, 8);
-        int index = 0;
-
-        random ??= Main.rand;
-
-        bool[] openSpaces = CheckOpenSpace(x, y, widths, height, random);
-
-        if ((!openSpaces[0] && !openSpaces[1]) || (dir == -1 && !openSpaces[0]) || (dir == 1 && !openSpaces[1]))
+        if (!GetGenerationInfo(x, y, ref dir, ref random, out int height, out int[] widths, out int index, out bool[] openSpaces))
             return new();
-
-        dir = dir == 0 ? GetValidDirection(x, y, widths, height, openSpaces, random) : dir;
 
         Queue<RealtimeStep> queue = new();
 
@@ -185,8 +190,8 @@ internal class MysteriaTree : ModTile
 
             for (int i = 0; i < width; ++i)
             {
-                queue.Enqueue(new RealtimeStep(new Point16(x + (i * dir), j + 1), TileAction.PlaceTile(ModContent.TileType<MysteriaTree>(), false, true, true)));
-                queue.Enqueue(new RealtimeStep(new Point16(x + (i * dir), j), TileAction.PlaceTile(ModContent.TileType<MysteriaTree>(), false, true, true)));
+                queue.Enqueue(new RealtimeStep(new Point16(x + (i * dir), j + 1), TileAction.PlaceTile(ModContent.TileType<MysteriaTree>(), false, true, true, sync: true)));
+                queue.Enqueue(new RealtimeStep(new Point16(x + (i * dir), j), TileAction.PlaceTile(ModContent.TileType<MysteriaTree>(), false, true, true, sync: true)));
             }
 
             if (index == height - 1)
@@ -195,11 +200,11 @@ internal class MysteriaTree : ModTile
 
                 if (random.NextBool(3))
                 {
-                    queue.Enqueue(new RealtimeStep(new Point16(x, j - 1), TileAction.PlaceTile(ModContent.TileType<MysteriaTree>(), false, true, true)));
+                    queue.Enqueue(new RealtimeStep(new Point16(x, j - 1), TileAction.PlaceTile(ModContent.TileType<MysteriaTree>(), false, true, true, sync: true)));
                     off = 1;
                 }
 
-                queue.Enqueue(new RealtimeStep(new Point16(x, j - 1 - off), TileAction.PlaceTile(ModContent.TileType<MysteriaTreeTop>(), false, true, true)));
+                queue.Enqueue(new RealtimeStep(new Point16(x, j - 1 - off), TileAction.PlaceTile(ModContent.TileType<MysteriaTreeTop>(), false, true, true, sync: true)));
             }
 
             x += width * dir;

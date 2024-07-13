@@ -1,4 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
+using Mono.Cecil.Cil;
+using MonoMod.Cil;
 using System;
 using System.Linq;
 using Terraria;
@@ -13,8 +15,11 @@ namespace Verdant.Players;
 
 internal class MudsquidPlayer : ModPlayer
 {
-    private static int[] ValidSquidTileIDs => new int[] { TileID.Mud, TileID.JungleGrass, TileID.MushroomGrass, ModContent.TileType<LushSoil>(), ModContent.TileType<VerdantGrassLeaves>(),
-        ModContent.TileType<LivingLushWood>(), ModContent.TileType<VerdantLeaves>() };
+    public static bool SquidCollision = true;
+
+    private static int[] ValidSquidTileIDs => new int[] { TileID.Mud, TileID.JungleGrass, TileID.MushroomGrass, ModContent.TileType<LushSoil>(), 
+        ModContent.TileType<VerdantGrassLeaves>(), ModContent.TileType<LivingLushWood>(), ModContent.TileType<VerdantLeaves>(), ModContent.TileType<LushGrass>(), 
+        ModContent.TileType<LightbulbLeaves>(), ModContent.TileType<MysteriaFluff>() };
 
     public bool IsSquid => squidActive && SolidCollisionTyped(Player.position, Player.width, Player.height, ValidSquidTileIDs);
 
@@ -25,9 +30,70 @@ internal class MudsquidPlayer : ModPlayer
 
     public override void Load()
     {
-        On_Player.Update += Player_Update;
-        On_Player.ItemCheck += Player_ItemCheck;
+        On_Player.DryCollision += PassThroughTiles;
+        On_Player.WaterCollision += PassThroughTiles_Wet;
+        IL_Collision.TileCollision += StopPassThroughTiles;
+        On_Player.SlopingCollision += HijackSlopeCollision;
+
         On_PlayerDrawLayers.DrawPlayer_RenderAllLayers += PlayerDrawLayers_DrawPlayer_RenderAllLayers;
+    }
+
+    private void PassThroughTiles_Wet(On_Player.orig_WaterCollision orig, Player self, bool fallThrough, bool ignorePlats)
+    {
+        SquidCollision = self.GetModPlayer<MudsquidPlayer>().squidActive;
+        orig(self, fallThrough, ignorePlats);
+        SquidCollision = false;
+    }
+
+    private void HijackSlopeCollision(On_Player.orig_SlopingCollision orig, Player self, bool fallThrough, bool ignorePlats)
+    {
+        Vector2 oldPos = self.position;
+        Vector2 oldVel = self.velocity;
+
+        orig(self, fallThrough, ignorePlats);
+
+        if (self.GetModPlayer<MudsquidPlayer>().squidActive)
+        {
+            self.position = oldPos;
+            self.velocity = oldVel;
+        }
+    }
+
+    private void StopPassThroughTiles(ILContext il)
+    {
+        ILCursor c = new(il);
+
+        if (!c.TryGotoNext(x => x.MatchLdindI2()))
+            return;
+
+        ILLabel label = null;
+
+        if (!c.TryGotoNext(MoveType.After, x => x.MatchBrtrue(out label)))
+            return;
+
+        c.Index += 6;
+        c.Emit(OpCodes.Ldloc_S, (byte)13);
+        c.Emit(OpCodes.Ldloc_S, (byte)14);
+        c.EmitDelegate(PassThrough);
+        c.Emit(OpCodes.Brtrue, label);
+    }
+
+    public static bool PassThrough(int x, int y)
+    {
+        if (!SquidCollision)
+        {
+            return false;
+        }
+
+        Tile tile = Main.tile[x, y];
+        return ValidSquidTileIDs.Contains(tile.TileType);
+    }
+
+    private void PassThroughTiles(On_Player.orig_DryCollision orig, Player self, bool fallThrough, bool ignorePlats)
+    {
+        SquidCollision = self.GetModPlayer<MudsquidPlayer>().squidActive;
+        orig(self, fallThrough, ignorePlats);
+        SquidCollision = false;
     }
 
     private void PlayerDrawLayers_DrawPlayer_RenderAllLayers(On_PlayerDrawLayers.orig_DrawPlayer_RenderAllLayers orig, ref PlayerDrawSet drawinfo)
@@ -40,34 +106,6 @@ internal class MudsquidPlayer : ModPlayer
             ModContent.GetInstance<MudsquidLayer>().DrawWithTransformationAndChildren(ref drawinfo);
             orig(ref drawinfo);
         }
-    }
-
-    private void Player_ItemCheck(On_Player.orig_ItemCheck orig, Player self)
-    {
-        if (self.GetModPlayer<MudsquidPlayer>().squidActive)
-            SetSolids(true);
-
-        orig(self);
-
-        if (self.GetModPlayer<MudsquidPlayer>().squidActive)
-            SetSolids(false);
-    }
-
-    private static void Player_Update(On_Player.orig_Update orig, Player self, int i)
-    {
-        if (self.GetModPlayer<MudsquidPlayer>().squidActive)
-            SetSolids(false);
-
-        orig(self, i);
-
-        if (self.GetModPlayer<MudsquidPlayer>().squidActive)
-            SetSolids(true);
-    }
-
-    private static void SetSolids(bool isValid)
-    {
-        foreach (var item in ValidSquidTileIDs)
-            Main.tileSolid[item] = isValid;
     }
 
     public override void ResetEffects()
@@ -102,9 +140,6 @@ internal class MudsquidPlayer : ModPlayer
         if ((hasSquid && VerdantMod.SquidHotkey.JustPressed && !IsSquid) || (Player.mount.Active && squidActive))
         {
             squidActive = !squidActive;
-
-            if (!squidActive)
-                SetSolids(true);
         }
     }
 
@@ -139,10 +174,7 @@ internal class MudsquidPlayer : ModPlayer
         }
 
         if (!hasSquid && squidActive && !SolidCollisionTyped(Player.position, Player.width, Player.height, ValidSquidTileIDs))
-        {
-            SetSolids(true);
             squidActive = false;
-        }
     }
 
     public override void DrawEffects(PlayerDrawSet drawInfo, ref float r, ref float g, ref float b, ref float a, ref bool fullBright)

@@ -7,7 +7,7 @@ namespace Verdant.Systems.RealtimeGeneration
     {
         public delegate void TileActionDelegate(int x, int y, ref bool success);
 
-        public static TileActionDelegate PlaceTile(int type, bool multitile = false, bool force = true, bool mute = true)
+        public static TileActionDelegate PlaceTile(int type, bool multitile = false, bool force = true, bool mute = true, bool sync = false)
         {
             return (int x, int y, ref bool success) =>
             {
@@ -16,6 +16,11 @@ namespace Verdant.Systems.RealtimeGeneration
                     if (force)
                         WorldGen.KillTile(x, y, false, false, true);
                     WorldGen.PlaceTile(x, y, type, mute);
+
+                    if (sync)
+                    {
+                        NetMessage.SendTileSquare(-1, x, y);
+                    }
 
                     success = true;
                 }

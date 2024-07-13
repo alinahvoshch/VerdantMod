@@ -1,3 +1,4 @@
-- Updated Stockable Shops reference to fix price issue
-- Fixed Apotheotic Treeband set bonus not providing an additional 10 defense
-- Fixed Red Petal Wall not being safe for houses
+- Rewrote Mudsquid entirely, fixed crashes with a ton of situations
+- Fixed using Mudsquid breaking random tiles
+- Stopped the Dryad from saying she sells Green Crystals when Stockable Shops isn't enabled, making her not actually sell any
+- Synced Mysteria Trees in multiplayer, should now be consistent for all clients and server

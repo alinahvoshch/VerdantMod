@@ -56,7 +56,7 @@ public class MysteriaSprout : ModTile
 
     public override void RandomUpdate(int i, int j)
     {
-        if (WorldGen.genRand.NextBool(12))
+        if (WorldGen.genRand.NextBool(12) && Main.netMode != NetmodeID.MultiplayerClient)
         {
             if (Framing.GetTileSafely(i, j).TileFrameY == 0)
                 j++;
@@ -66,8 +66,11 @@ public class MysteriaSprout : ModTile
                 var gen = ModContent.GetInstance<RealtimeGen>();
                 var queue = MysteriaTree.RealtimeGenerate(i, j, 0, Main.rand);
 
-                if (queue.Any())
+                if (queue.Count != 0)
+                {
                     gen.CurrentActions.Add(new(queue, 0.3f));
+                    WorldGen.KillTile(i, j);
+                }
             }
             else //Instantly generate tree if not near player, might as well not take extra power
                 MysteriaTree.Generate(i, j, 0, Main.rand);

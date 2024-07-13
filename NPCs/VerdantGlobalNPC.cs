@@ -54,7 +54,7 @@ namespace Verdant.NPCs
                 if (Main.LocalPlayer.GetModPlayer<VerdantPlayer>().ZoneVerdant && Main.rand.NextBool(5))
                     chat = Dialogue("Dryad.1");
 
-                if (NPC.downedBoss1 && Main.rand.NextBool(5))
+                if (NPC.downedBoss1 && Main.rand.NextBool(5) && ModLoader.HasMod("StockableShops"))
                     chat = Dialogue("Dryad.GreenCrystal");
             }
             else if (npc.type == NPCID.Stylist) //hates the verdant
