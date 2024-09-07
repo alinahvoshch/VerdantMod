@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
+using Terraria.Enums;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
@@ -20,9 +21,9 @@ public class Aquarium : ModTile
         TileObjectData.newTile.CopyFrom(TileObjectData.Style2x2);
         TileObjectData.newTile.Width = 5;
         TileObjectData.newTile.Height = 3;
-        TileObjectData.newTile.CoordinateHeights = new int[] { 16, 16, 16 };
+        TileObjectData.newTile.CoordinateHeights = [16, 16, 16];
         TileObjectData.newTile.Origin = new Point16(2, 1);
-        TileObjectData.newTile.StyleHorizontal = false;
+        TileObjectData.newTile.AnchorBottom = new AnchorData(AnchorType.SolidTile | AnchorType.SolidWithTop | AnchorType.Table | AnchorType.SolidSide, 5, 0);
         TileObjectData.addTile(Type);
 
         DustType = DustID.Glass;

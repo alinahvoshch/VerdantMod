@@ -804,7 +804,7 @@ WisplantInfusedMudBoulder: {
 
 BulbSnail: {
 	DisplayName: 亮灯球茎蜗牛
-	// Tooltip: ""
+	// Tooltip: Lights up the ol' road.
 }
 
 BumblebeeItem: {
@@ -864,7 +864,7 @@ PuffSlimeSmallItem: {
 
 RedGrassSnail: {
 	DisplayName: 红色花瓣蜗牛
-	// Tooltip: ""
+	// Tooltip: What a gentle creature!
 }
 
 ExpertPlantGuide: {
@@ -1079,7 +1079,7 @@ RedPetal: {
 
 WisplantItem: {
 	DisplayName: 智慧植物
-	// Tooltip: ""
+	// Tooltip: "'Soft like clouds'"
 }
 
 YellowBulb: {
@@ -1613,10 +1613,20 @@ ChlorovineWand: {
 
 ShellSnailCage: {
 	// DisplayName: Shell Snail Cage
-	// Tooltip: ""
+	// Tooltip: Flighty, but hardy.
 }
 
 ShellSnailItem: {
-	// DisplayName: Shell Snail Item
-	// Tooltip: ""
+	// DisplayName: Shell Snail
+	// Tooltip: Rock-solid cuteness.
+}
+
+CanopySnailItem: {
+	// DisplayName: Canopy Snail
+	// Tooltip: What a beautiful display of nature.
+}
+
+CanopySnailCage: {
+	// DisplayName: Canopy Snail Cage
+	// Tooltip: Sluggish, but loving.
 }

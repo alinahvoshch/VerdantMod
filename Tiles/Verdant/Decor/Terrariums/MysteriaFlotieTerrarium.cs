@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.DataStructures;
+using Terraria.Enums;
 using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -26,6 +27,7 @@ public class MysteriaFlotieTerrarium : ModTile
         TileObjectData.newTile.Height = 5;
         TileObjectData.newTile.CoordinateHeights = new int[] { 16, 16, 16, 16, 16 };
         TileObjectData.newTile.Origin = new Point16(2, 3);
+        TileObjectData.newTile.AnchorBottom = new AnchorData(AnchorType.SolidTile | AnchorType.SolidWithTop | AnchorType.Table | AnchorType.SolidSide, TileObjectData.newTile.Width, 0);
         TileObjectData.addTile(Type);
 
         DustType = DustID.Glass;

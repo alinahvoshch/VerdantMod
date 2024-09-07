@@ -9,6 +9,7 @@ using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ObjectData;
 using Verdant.NPCs.Passive;
+using Terraria.Enums;
 
 namespace Verdant.Tiles.Verdant.Decor.Terrariums;
 
@@ -27,6 +28,7 @@ public class LushWingletTerrarium : ModTile
         TileObjectData.newTile.Height = 5;
         TileObjectData.newTile.CoordinateHeights = new int[] { 16, 16, 16, 16, 16 };
         TileObjectData.newTile.Origin = new Point16(3, 3);
+        TileObjectData.newTile.AnchorBottom = new AnchorData(AnchorType.SolidTile | AnchorType.SolidWithTop | AnchorType.Table | AnchorType.SolidSide, TileObjectData.newTile.Width, 0);
         TileObjectData.addTile(Type);
 
         DustType = DustID.Glass;

@@ -120,11 +120,20 @@ public class VerdantSystem : ModSystem
     {
         var flags = new BitsByte();
         flags[0] = apotheosisGreeting;
-        flags[1] = apotheosisEvilDown;
-        flags[2] = apotheosisSkelDown;
-        flags[3] = apotheosisWallDown;
-        flags[4] = apotheosisIntro;
+        flags[1] = apotheosisEyeDown;
+        flags[2] = apotheosisEvilDown;
+        flags[3] = apotheosisSkelDown;
+        flags[4] = apotheosisWallDown;
+        flags[5] = apotheosisIntro;
+        flags[6] = apotheosisDowns.TryGetValue("anyMech", out bool anyMech) && anyMech;
+        flags[7] = apotheosisDowns.TryGetValue("plantera", out bool plantera) && plantera;
         writer.Write(flags);
+
+        var moreHmFlags = new BitsByte();
+        moreHmFlags[0] = apotheosisDowns.TryGetValue("golem", out bool golem) && golem;
+        moreHmFlags[1] = apotheosisDowns.TryGetValue("cultist", out bool cultist) && cultist;
+        moreHmFlags[2] = apotheosisDowns.TryGetValue("moonLord", out bool moonLord) && moonLord;
+        writer.Write(moreHmFlags);
     }
 
     public override void NetReceive(BinaryReader reader)
@@ -132,10 +141,28 @@ public class VerdantSystem : ModSystem
         BitsByte flags = reader.ReadByte();
 
         apotheosisGreeting = flags[0];
-        apotheosisEvilDown = flags[1];
-        apotheosisSkelDown = flags[2];
-        apotheosisWallDown = flags[3];
-        apotheosisIntro = flags[4];
+        apotheosisEyeDown = flags[1];
+        apotheosisEvilDown = flags[2];
+        apotheosisSkelDown = flags[3];
+        apotheosisWallDown = flags[4];
+        apotheosisIntro = flags[5];
+
+        if (flags[6])
+            apotheosisDowns.Add("anyMech", true);
+
+        if (flags[7])
+            apotheosisDowns.Add("plantera", true);
+
+        BitsByte moreHmFlags = reader.ReadByte();
+
+        if (moreHmFlags[0])
+            apotheosisDowns.Add("golem", true);
+
+        if (moreHmFlags[1])
+            apotheosisDowns.Add("cultist", true);
+
+        if (moreHmFlags[2])
+            apotheosisDowns.Add("moonLord", true);
     }
 
     public override void ModifyWorldGenTasks(List<GenPass> tasks, ref double totalWeight)

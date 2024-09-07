@@ -330,7 +330,7 @@ ResearchBooksItem: {
 
 SnailShellBlockItem: {
 	DisplayName: Snail Shell
-	Tooltip: "'It feels bad to have these'"
+	Tooltip: "'It feels really bad to have these.'"
 }
 
 LullabyBox: {
@@ -818,7 +818,7 @@ WisplantInfusedMudBoulder: {
 
 BulbSnail: {
 	DisplayName: Bulb Snail
-	Tooltip: ""
+	Tooltip: Lights up the ol' road.
 }
 
 BumblebeeItem: {
@@ -878,7 +878,7 @@ PuffSlimeSmallItem: {
 
 RedGrassSnail: {
 	DisplayName: Red Petal Snail
-	Tooltip: ""
+	Tooltip: What a gentle creature!
 }
 
 ExpertPlantGuide: {
@@ -1093,7 +1093,7 @@ RedPetal: {
 
 WisplantItem: {
 	DisplayName: Wisplant
-	Tooltip: ""
+	Tooltip: "'Soft like clouds'"
 }
 
 YellowBulb: {
@@ -1142,7 +1142,7 @@ Microcosm: {
 		Creates a miniscule Verdant biome anywhere
 		Caution! This overrides a LARGE area (minimum 60x60 tiles on a small world)
 		Make sure you use this in a place you don't care about!
-
+		'A realm in glass, shines brightly'
 		'''
 }
 
@@ -1191,7 +1191,7 @@ Halfsprout: {
 	Tooltip:
 		'''
 		Instantly grows all herbs, harvests them, then replants them
-
+		'Nature's beauty; giving itself to others'
 		'''
 }
 
@@ -1395,7 +1395,7 @@ ThornBlock: {
 
 ThornWallItem: {
 	DisplayName: Thorn Wall
-	Tooltip: ""
+	Tooltip: It's...wrong.
 }
 
 ApotheoticBeeHelmet: {
@@ -1637,10 +1637,20 @@ ChlorovineWand: {
 
 ShellSnailCage: {
 	DisplayName: Shell Snail Cage
-	Tooltip: ""
+	Tooltip: Flighty, but hardy.
 }
 
 ShellSnailItem: {
-	DisplayName: Shell Snail Item
-	Tooltip: ""
+	DisplayName: Shell Snail
+	Tooltip: Rock-solid cuteness.
+}
+
+CanopySnailItem: {
+	DisplayName: Canopy Snail
+	Tooltip: What a beautiful display of nature.
+}
+
+CanopySnailCage: {
+	DisplayName: Canopy Snail Cage
+	Tooltip: Sluggish, but loving.
 }

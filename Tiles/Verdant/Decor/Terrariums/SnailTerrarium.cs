@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.DataStructures;
+using Terraria.Enums;
 using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -30,8 +31,9 @@ public abstract class SnailTerrarium : ModTile
         TileObjectData.newTile.CopyFrom(TileObjectData.Style2x2);
         TileObjectData.newTile.Width = 5;
         TileObjectData.newTile.Height = 3;
-        TileObjectData.newTile.CoordinateHeights = new int[] { 16, 16, 16 };
+        TileObjectData.newTile.CoordinateHeights = [16, 16, 16];
         TileObjectData.newTile.Origin = new Point16(3, 1);
+        TileObjectData.newTile.AnchorBottom = new AnchorData(AnchorType.SolidTile | AnchorType.SolidWithTop | AnchorType.Table | AnchorType.SolidSide, TileObjectData.newTile.Width, 0);
         TileObjectData.addTile(Type);
 
         DustType = DustID.Glass;
@@ -86,4 +88,36 @@ public class ShellSnailTerrarium : SnailTerrarium
     protected override Point NPCSize => new(38, 22);
 
     protected override float GetOffset(int i, int j) => (i - j) * MathHelper.PiOver4 + MathHelper.PiOver2;
+}
+
+public class CanopySnailTerrarium : SnailTerrarium
+{
+    protected override int NPCType => ModContent.NPCType<CanopySnail>();
+    protected override Point NPCSize => new(52, 34);
+
+    protected override float GetOffset(int i, int j) => (i - j) * MathHelper.PiOver4 - MathHelper.PiOver2 * 1.25f;
+
+    public override bool PreDraw(int i, int j, SpriteBatch spriteBatch)
+    {
+        Tile tile = Main.tile[i, j];
+
+        if (tile.TileFrameX == 72 && tile.TileFrameY == 36)
+        {
+            float[] offsets = [0f, 2, 4, 6, 6, 4, 2, 0, -2, -4, -6, -6, -4, -2, 0];
+            float[] rotations = [0, 0f, 0f, 0, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0];
+
+            Main.instance.LoadNPC(NPCType);
+            Texture2D tex = TextureAssets.Npc[NPCType].Value;
+            float offset = ((Main.GameUpdateCount + GetOffset(i, j)) * 0.02f) + ((i + j) * MathHelper.PiOver2);
+            int index = (int)Math.Ceiling(offset) % offsets.Length;
+            Vector2 off = new(MathHelper.Lerp(offsets[index], offsets[index == offsets.Length - 1 ? 0 : index + 1], offset % 1) + 28, 2);
+            var src = new Rectangle(0, 0, NPCSize.X, NPCSize.Y);
+            var effect = rotations[index] == 0 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
+
+            Vector2 position = TileHelper.TileCustomPosition(i, j, new Vector2(MathF.Round(off.X) + 10, off.Y + 10));
+            spriteBatch.Draw(tex, position, src, Lighting.GetColor(i, j), 0, new(11, 12), 1f, effect, 0);
+            spriteBatch.Draw(CanopySnail.GlowTexture.Value, position, src, Color.White, 0, new(11, 12), 1f, effect, 0);
+        }
+        return true;
+    }
 }

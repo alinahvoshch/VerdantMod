@@ -33,29 +33,56 @@ namespace Verdant.Items.Verdant.Weapons
             return true;
         }
 
+        public override bool CanShoot(Player player)
+        {
+            foreach (var projectile in Main.ActiveProjectiles)
+            {
+                if (projectile.type == ModContent.ProjectileType<VerdantHealingMinion>() && projectile.owner == player.whoAmI)
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
         public override bool CanUseItem(Player player)
         {
-            for (int i = -2; i < 2; ++i)
-                for (int j = -3; j < 0; ++j)
-                    if (TileHelper.SolidTile(Helper.MouseTile().X + i, Helper.MouseTile().Y + j))
-                        return false;
-
-            if (Main.projectile.Any(x => x.active && x.type == ModContent.ProjectileType<VerdantHealingMinion>())) //Adjust position
+            if (Main.myPlayer == player.whoAmI)
             {
-                var adjList = Main.projectile.Where(x => x.type == ModContent.ProjectileType<VerdantHealingMinion>() && x.ModProjectile is VerdantHealingMinion);
+                for (int i = -2; i < 2; ++i)
+                    for (int j = -3; j < 0; ++j)
+                        if (TileHelper.SolidTile(Helper.MouseTile().X + i, Helper.MouseTile().Y + j))
+                            return false;
 
-                if (player.HasBuff(ModContent.BuffType<Buffs.Minion.HealingFlowerBuff>()))
+                Projectile proj = null;
+
+                foreach (var projectile in Main.ActiveProjectiles)
                 {
-                    for (int l = 0; l < adjList.Count(); ++l)
-                        (adjList.ElementAt(l).ModProjectile as VerdantHealingMinion).goPosition = Main.MouseWorld - new Vector2(24, 24);
+                    if (projectile.type == ModContent.ProjectileType<VerdantHealingMinion>() && projectile.owner == player.whoAmI)
+                    {
+                        proj = projectile;
+                        break;
+                    }
                 }
-                else
-                    for (int l = 0; l < adjList.Count(); ++l)
-                        adjList.ElementAt(l).ai[0]++;
 
-                return false;
+                if (proj is not null)
+                {
+                    if (player.HasBuff(ModContent.BuffType<Buffs.Minion.HealingFlowerBuff>()))
+                        (proj.ModProjectile as VerdantHealingMinion).goPosition = Main.MouseWorld - new Vector2(24, 24);
+
+                    if (Main.netMode == NetmodeID.MultiplayerClient)
+                    {
+                        NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, proj.whoAmI);
+                    }
+
+                    return false;
+                }
+
+                return true;
             }
-            return true;
+
+            return false;
         }
     }
 }

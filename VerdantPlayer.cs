@@ -56,8 +56,6 @@ class VerdantPlayer : ModPlayer
             Player.buffImmune[BuffID.Bleeding] = true;
             Player.buffImmune[BuffID.Confused] = true;
             Player.buffImmune[BuffID.Cursed] = true;
-            Player.buffImmune[BuffID.BrokenArmor] = true;
-            Player.buffImmune[BuffID.Chilled] = true;
             Player.buffImmune[BuffID.Suffocation] = true;
         }
 

@@ -1,4 +1,12 @@
-- Rewrote Mudsquid entirely, fixed crashes with a ton of situations
-- Fixed using Mudsquid breaking random tiles
-- Stopped the Dryad from saying she sells Green Crystals when Stockable Shops isn't enabled, making her not actually sell any
-- Synced Mysteria Trees in multiplayer, should now be consistent for all clients and server
+- Synced all boss downed flags for the Apotheosis
+- Fixed the Eye downed flag not syncing properly
+- Fixed most Aquariums and Terrariums not having their anchors set properly
+- Fixed Verdant Staff lack of syncing
+	I also chose to remove the stacking functionality, as it would be a lot more work to sync and use
+	Instead, now players can each have one of their own Flower, with a 25% heal speed reduction per flower for balance
+- Adjusted death vfx for snails
+- Added Canopy Snail, item, and terrarium
+- Added flavor text to all snail and snail cage items
+- Added flavor text to Microcosm, Halfsprout, Wisplant
+- Reduced how many ingredients are needed to make a Magic-Infused Wisplant
+- Removed Chilled and Broken Armor immunity granted by Crystal Heart

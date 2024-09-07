@@ -51,6 +51,7 @@ namespace Verdant
                 int maxSize = y > Main.worldSurface ? 20 : 42;
                 return VerdantTree.Spawn(i, y, -1, WorldGen.gen ? WorldGen.genRand : Main.rand, 4, maxSize, leaves, -1, true);
             }
+
             return orig(i, y);
         }
 

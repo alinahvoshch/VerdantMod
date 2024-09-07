@@ -87,3 +87,8 @@ ShellSnail: {
 	DisplayName: Shelly Snail
 	Entry: Less of leaves makes this snail a little more hardy, but no less awesome.
 }
+
+CanopySnail: {
+	DisplayName: Canopy Snail
+	Entry: A small forest balances on this strong snail's shell. If you look closely, there's tons of very small snails in there.
+}
