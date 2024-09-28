@@ -9,6 +9,7 @@ using Terraria.GameInput;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Verdant.Players.Layers;
+using Verdant.Tiles.Verdant.Basic.Aquamarine;
 using Verdant.Tiles.Verdant.Basic.Blocks;
 
 namespace Verdant.Players;
@@ -19,7 +20,7 @@ internal class MudsquidPlayer : ModPlayer
 
     private static int[] ValidSquidTileIDs => new int[] { TileID.Mud, TileID.JungleGrass, TileID.MushroomGrass, ModContent.TileType<LushSoil>(), 
         ModContent.TileType<VerdantGrassLeaves>(), ModContent.TileType<LivingLushWood>(), ModContent.TileType<VerdantLeaves>(), ModContent.TileType<LushGrass>(), 
-        ModContent.TileType<LightbulbLeaves>(), ModContent.TileType<MysteriaFluff>() };
+        ModContent.TileType<LightbulbLeaves>(), ModContent.TileType<MysteriaFluff>(), ModContent.TileType<EmbeddedAquamarine>() };
 
     public bool IsSquid => squidActive && SolidCollisionTyped(Player.position, Player.width, Player.height, ValidSquidTileIDs);
 

@@ -409,10 +409,10 @@ public partial class VerdantGenSystem : ModSystem
             Tile t = Framing.GetTileSafely(point.X, point.Y);
 
             if (t.WallType == WallTypes[0] && n < -0.4f)
-                GenHelper.ReplaceWall(point, WorldGen.remixWorldGen ? WallTypes[1] : WallTypes[2]);
+                t.WallType = (ushort)(WorldGen.remixWorldGen ? WallTypes[1] : WallTypes[2]);
 
             if (n < -0.72f && TileTypes.Any(x => x == t.TileType) && t.TileType != TileTypes[0] && t.HasTile)
-                GenHelper.ReplaceTile(point, TileTypes[4]);
+                t.TileType = (ushort)TileTypes[4];
         }
 
         GenCircle.Locations.Clear();

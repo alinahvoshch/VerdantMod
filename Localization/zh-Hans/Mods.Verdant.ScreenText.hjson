@@ -50,6 +50,11 @@ Apotheosis: {
 			// 22: Do you know of any volcanoes?
 			// 23: Like a terrarium, I observe. Lovely, beautiful.
 			// 24: Share beauty with all.
+			// 25: I miss seeing the bees up close.
+			// 26: I see you walk here. Do you enjoy it?
+			// 27: Dance when you can, child. Dance with the flowers.
+			// 28: I've only so little more to say, I'm afraid.
+			// 29: Let nothing stop you. It's not stopped us, or me.
 		}
 
 		EvilBoss: {
@@ -73,6 +78,8 @@ Apotheosis: {
 			// 10: Sometimes, I just want to see home.
 			// 11: ...what next?...
 			// 12: Needs more flowers....
+			// 13: The bees, so free...
+			// 14: Solace within myself...
 		}
 
 		EoC: 终于，眼睛被击落了。

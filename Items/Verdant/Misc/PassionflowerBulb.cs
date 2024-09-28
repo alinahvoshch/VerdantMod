@@ -23,10 +23,10 @@ class PassionflowerBulb : ModItem
         itemLoot.Add(halfSproutRule);
         itemLoot.AddCommon<LushLeafWand>(3);
 
-        int[] itemIDArray = new int[] { ItemID.IronskinPotion, ModContent.ItemType<MagicWisplant>(), ModContent.ItemType<LushDagger>(), ModContent.ItemType<PinkPetal>(), 
+        int[] itemIDArray = [ ItemID.IronskinPotion, ModContent.ItemType<LushDagger>(), ModContent.ItemType<PinkPetal>(), 
             ModContent.ItemType<RedPetal>(), ModContent.ItemType<Lightbulb>(), ItemID.Dynamite, ItemID.Glowstick, ItemID.Bomb, ItemID.NightOwlPotion, ItemID.HealingPotion, 
-            ItemID.MoonglowSeeds, ItemID.DaybloomSeeds, ItemID.BlinkrootSeeds };
-        (int, int)[] itemStackArray = new (int, int)[] { (1, 3), (1, 3), (3, 7), (9, 14), (9, 14), (1, 3), (1, 1), (3, 8), (2, 4), (2, 4), (2, 4), (2, 4), (2, 4), (2, 4) };
+            ItemID.MoonglowSeeds, ItemID.DaybloomSeeds, ItemID.BlinkrootSeeds ];
+        (int, int)[] itemStackArray = [(1, 3), (1, 3), (3, 7), (9, 14), (9, 14), (1, 3), (1, 1), (3, 8), (2, 4), (2, 4), (2, 4), (2, 4), (2, 4), (2, 4)];
 
         itemLoot.Add(new LootPoolDrop(itemStackArray, 7, 1, 1, itemIDArray));
     }

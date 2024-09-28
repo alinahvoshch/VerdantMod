@@ -47,9 +47,11 @@ public class ZipvineModule : Module
         }
         else if (Main.netMode == NetmodeID.Server) //Send to other clients
         {
-            Send(toPlayer == Main.maxPlayers ? -1 : toPlayer, toPlayer == Main.maxPlayers ? fromWho : Main.maxPlayers, false);
+            Send(-1, fromWho, false);
 
             var vine = slotInList is null ? null : ForegroundManager.PlayerLayerItems[slotInList.Value] as ZipvineEntity;
+
+            Console.WriteLine(vine is null ? "Null" : vine);
 
             if (vineId == 0)
                 VineWandCommon.BuildVine(length, vine, new Vector2(x, y), true);

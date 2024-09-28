@@ -9,16 +9,10 @@ using System.Linq;
 namespace Verdant.Systems.Syncing.Foreground;
 
 [Serializable]
-public class KillZipvineModule : Module
+public class KillZipvineModule(short myPlayer, short slot) : Module
 {
-    public readonly short fromWho = 0;
-    public readonly int slot = 0;
-
-    public KillZipvineModule(short myPlayer, short slot)
-    {
-        fromWho = myPlayer;
-        this.slot = slot;
-    }
+    public readonly short fromWho = myPlayer;
+    public readonly int slot = slot;
 
     protected override void Receive()
     {

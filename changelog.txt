@@ -1,12 +1,19 @@
-- Synced all boss downed flags for the Apotheosis
-- Fixed the Eye downed flag not syncing properly
-- Fixed most Aquariums and Terrariums not having their anchors set properly
-- Fixed Verdant Staff lack of syncing
-	I also chose to remove the stacking functionality, as it would be a lot more work to sync and use
-	Instead, now players can each have one of their own Flower, with a 25% heal speed reduction per flower for balance
-- Adjusted death vfx for snails
-- Added Canopy Snail, item, and terrarium
-- Added flavor text to all snail and snail cage items
-- Added flavor text to Microcosm, Halfsprout, Wisplant
-- Reduced how many ingredients are needed to make a Magic-Infused Wisplant
-- Removed Chilled and Broken Armor immunity granted by Crystal Heart
+ADDITIONS
+- Added Blue Stargazer tile
+	- It's craftable with Lush Leaves, Fallen Stars or grows naturally at Night
+	- Pollinating it with bees spawns a Lunar Jelly
+- Added Lunar Jelly critter
+	- Item and Terrarium included
+
+CHANGES / BUGFIXES
+- Significantly sped up Verdant generation
+- Made Passionflower Bulbs not drop Wisplants so they can't be farmed [as easily]
+- Passionflower Bulbs now regrow by being pollinated by Bumblebees instead of by random chance
+- Added more Apotheosis dialogue
+- Fixed Lightbulb Leaves not counting as Verdant grass
+- Fixed Small Fly not animating in the Bestiary
+- Fixed Tall Hats not accounting for step stool offset
+- Fixed Crude Paintbrush 1-tile line throwing an error
+- Improved Crude Paintbrush line alignment
+- Lush Soil Aquamarine is now a valid Mudsquid tile
+- Improved Zip/Chlorovine syncing in multiplayer

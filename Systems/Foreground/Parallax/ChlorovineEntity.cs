@@ -17,7 +17,6 @@ public class ChlorovineEntity : ZipvineEntity
 
     public ChlorovineEntity(Vector2 position, long priorWho = -1, long nextWho = -1) : base(position, -1, -1, "Parallax/Chlorovine")
     {
-        //DateTime.MinValue.Ticks
         whoAmI = (int)(DateTime.UtcNow.Ticks % int.MaxValue);
 
         if (priorWho != -1)

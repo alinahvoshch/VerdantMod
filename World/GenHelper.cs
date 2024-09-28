@@ -162,7 +162,15 @@ public static class GenHelper
 
     public static int GenLine(Point start, Point end, int tileType, ref List<Point> points, int cap = -1)
     {
-        int repeats = (int)Vector2.Distance(start.ToVector2() + new Vector2(8), end.ToVector2() + new Vector2(8));
+        if (start == end)
+        {
+            if (WorldGen.PlaceTile(start.X, start.Y, tileType, true, true))
+                return 1;
+            
+            return 0;
+        }
+
+        int repeats = (int)Vector2.Distance(start.ToVector2(), end.ToVector2());
         int count = 0;
         Point last = new();
 
@@ -174,7 +182,7 @@ public static class GenHelper
             if (i > cap)
                 break;
 
-            Point placePos = Vector2.Lerp(start.ToVector2(), end.ToVector2(), i / (float)repeats).ToPoint();
+            Point placePos = Vector2.Lerp(start.ToVector2() + new Vector2(0.5f), end.ToVector2() + new Vector2(0.5f), i / (float)repeats).ToPoint();
 
             if (WorldGen.SolidTile(placePos.X, placePos.Y) || placePos == last)
                 continue;

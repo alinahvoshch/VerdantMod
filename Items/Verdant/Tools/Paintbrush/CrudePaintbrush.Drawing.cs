@@ -104,7 +104,7 @@ public partial class CrudePaintbrush : ApotheoticItem
 
     private void DrawIndicatorLine(PlayerDrawSet info)
     {
-        var mouse = Main.MouseWorld.ToTileCoordinates().ToVector2();
+        var mouse = Main.MouseWorld.ToTileCoordinates().ToVector2() + new Vector2(0.5f);
         int repeats = (int)Vector2.Distance(_locations.First().ToVector2(), mouse);
         int count = GetAvailableBlocks(info.drawPlayer);
         Point last = new();
@@ -112,7 +112,7 @@ public partial class CrudePaintbrush : ApotheoticItem
         for (int i = 0; i <= repeats; ++i)
         {
             Color c = i > count - 1 ? Color.Red : Color.White;
-            Point placePos = Vector2.Lerp(_locations.First().ToVector2(), mouse, repeats == 0 ? 0 : i / (float)repeats).ToPoint();
+            Point placePos = Vector2.Lerp(_locations.First().ToVector2() + new Vector2(0.5f), mouse, repeats == 0 ? 0 : i / (float)repeats).ToPoint();
 
             if (placePos == last)
                 continue;

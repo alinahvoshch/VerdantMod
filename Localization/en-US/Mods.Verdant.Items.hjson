@@ -1654,3 +1654,18 @@ CanopySnailCage: {
 	DisplayName: Canopy Snail Cage
 	Tooltip: Sluggish, but loving.
 }
+
+StargazerPlantItem: {
+	DisplayName: Blue Stargazer
+	Tooltip: Glows softly in your care.
+}
+
+LunarJellyItem: {
+	DisplayName: Lunar Jelly
+	Tooltip: Both soft and incorporeal.
+}
+
+LunarJellyTerrariumItem: {
+	DisplayName: Lunar Jelly Terrarium
+	Tooltip: Night not fleeting, just glowing.
+}

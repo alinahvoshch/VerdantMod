@@ -11,8 +11,8 @@ namespace Verdant.Systems.Foreground;
 
 public static class ForegroundManager
 {
-    public static readonly List<ForegroundItem> Items = new List<ForegroundItem>();
-    public static readonly List<ForegroundItem> PlayerLayerItems = new();
+    public static readonly List<ForegroundItem> Items = [];
+    public static readonly List<ForegroundItem> PlayerLayerItems = [];
 
     internal static void Hooks()
     {
@@ -25,7 +25,7 @@ public static class ForegroundManager
         orig(self, sw);
 
         if (Main.PlayerLoaded && !Main.gameMenu)
-            Update();
+            UpdateForegroundObjects();
     }
 
     private static void PlayerLayerHook(On_Main.orig_DrawProjectiles orig, Main self)
@@ -51,7 +51,7 @@ public static class ForegroundManager
         }
     }
 
-    public static void Update()
+    public static void UpdateForegroundObjects()
     {
         UpdateSet(PlayerLayerItems);
         UpdateSet(Items);
@@ -59,7 +59,7 @@ public static class ForegroundManager
 
     private static void UpdateSet(List<ForegroundItem> set)
     {
-        List<ForegroundItem> removals = new();
+        List<ForegroundItem> removals = [];
 
         foreach (var val in set)
         {

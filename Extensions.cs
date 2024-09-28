@@ -81,6 +81,9 @@ public static class Extensions
         if (info.drawPlayer.mount is not null && info.drawPlayer.mount.Active)
             offset.Y += info.drawPlayer.mount.HeightBoost;
 
+        if (info.drawPlayer.portableStoolInfo.IsInUse)
+            offset.Y += info.drawPlayer.portableStoolInfo.HeightBoost;
+
         offset = offset.ToPoint().ToVector2();
         return new(MathF.Round(offset.X, MidpointRounding.ToNegativeInfinity), MathF.Round(offset.Y, MidpointRounding.AwayFromZero));
     }

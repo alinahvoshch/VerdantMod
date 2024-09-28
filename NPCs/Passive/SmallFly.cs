@@ -77,9 +77,6 @@ namespace Verdant.NPCs.Passive
                     NPC.ai[2] = 0;
                     NPC.ai[3] = 0;
                 }
-
-                if (NPC.frameCounter++ % 6 <= 2) NPC.frame.Y = 20; //Animate
-                else NPC.frame.Y = 0;
             }
             else if (NPC.ai[0] == 1) //With host fly
             {
@@ -96,15 +93,28 @@ namespace Verdant.NPCs.Passive
                     if (Vector2.Distance(NPC.Center, new Vector2(NPC.ai[2], NPC.ai[3])) > distanceToHost)
                         NPC.velocity = Vector2.Normalize(new Vector2(NPC.ai[2], NPC.ai[3]) - NPC.Center) * 4.5f;
                 }
+            }
 
+            if (NPC.velocity.X > 0) NPC.spriteDirection = 1;
+            else NPC.spriteDirection = -1;
+        }
+
+        public override void FindFrame(int frameHeight)
+        {
+            if (NPC.ai[0] == 0)
+            {
+                if (NPC.frameCounter++ % 6 <= 2) 
+                    NPC.frame.Y = 20; //Animate
+                else 
+                    NPC.frame.Y = 0;
+            }
+            else
+            {
                 if (NPC.frameCounter++ % 6 <= 2)
                     NPC.frame.Y = 20;
                 else
                     NPC.frame.Y = 0;
             }
-
-            if (NPC.velocity.X > 0) NPC.spriteDirection = 1;
-            else NPC.spriteDirection = -1;
         }
 
         public override void HitEffect(NPC.HitInfo hit)

@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using Microsoft.Build.Tasks;
+using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 using System.Linq;
 using Terraria;
@@ -13,7 +14,7 @@ using Verdant.Tiles.Verdant.Basic.Blocks;
 
 namespace Verdant.Tiles.Verdant.Basic;
 
-class LootPlant : ModTile
+class LootPlant : ModTile, IFlowerTile
 {
     public const int FrameHeight = 38;
 
@@ -23,8 +24,8 @@ class LootPlant : ModTile
 
         TileObjectData.newTile.CopyFrom(TileObjectData.Style2x2);
         TileObjectData.newTile.AnchorBottom = new AnchorData(AnchorType.SolidTile, 2, 0);
-        TileObjectData.newTile.AnchorValidTiles = new int[] { ModContent.TileType<VerdantRedPetal>(), ModContent.TileType<VerdantPinkPetal>(), 
-            ModContent.TileType<LushSoil>(), TileID.HallowedGrass, TileID.Grass, TileID.JungleGrass, TileID.Hive };
+        TileObjectData.newTile.AnchorValidTiles = [ ModContent.TileType<VerdantRedPetal>(), ModContent.TileType<VerdantPinkPetal>(), 
+            ModContent.TileType<LushSoil>(), TileID.HallowedGrass, TileID.Grass, TileID.JungleGrass, TileID.Hive ];
         TileObjectData.newTile.ExpandValidAnchors(VerdantGrassLeaves.VerdantGrassTypes.ToList());
 
         QuickTile.SetMulti(this, 2, 2, DustID.OrangeStainedGlass, SoundID.Grass, true, new Color(232, 167, 74), false, false, false, "Passionflower");
@@ -39,12 +40,6 @@ class LootPlant : ModTile
             yield return new Item(ModContent.ItemType<PassionflowerBulb>());
 
         yield return new Item(ModContent.ItemType<PassionflowerBlock>());
-    }
-
-    public override void RandomUpdate(int i, int j)
-    {
-        if (Main.rand.NextBool(200))
-            DecreaseFrame(new Point(i, j));
     }
 
     public override bool RightClick(int i, int j)
@@ -110,5 +105,17 @@ class LootPlant : ModTile
         player.noThrow = 2;
         player.cursorItemIconEnabled = true;
         player.cursorItemIconID = ModContent.ItemType<PassionflowerBulb>();
+    }
+
+    public Vector2[] GetOffsets() => [new(16)];
+    public bool IsFlower(int i, int j) => true;
+    public Vector2[] OffsetAt(int i, int j) => GetOffsets();
+
+    bool IFlowerTile.OnPollenate(int i, int j)
+    {
+        if (Main.rand.NextBool(20))
+            DecreaseFrame(new(i, j));
+
+        return true;
     }
 }

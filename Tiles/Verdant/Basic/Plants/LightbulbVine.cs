@@ -15,7 +15,7 @@ namespace Verdant.Tiles.Verdant.Basic.Plants;
 
 internal class LightbulbVine : ModTile, IFlowerTile
 {
-    private Asset<Texture2D> glowTex;
+    private static Asset<Texture2D> glowTex;
 
     public override void Unload() => glowTex = null;
 
