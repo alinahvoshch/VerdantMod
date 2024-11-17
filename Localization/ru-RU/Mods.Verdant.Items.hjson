@@ -1,116 +1,115 @@
 ProbablyDelete: {
-	DisplayName: Tester Tool
-	Tooltip: @ me if you see this
+	DisplayName: Инструмент тестировки
+	Tooltip: Пинганите меня на сервере, если увидите это
 }
 
 LushWoodBody: {
-	DisplayName: Lush Wood Chestpiece
-	Tooltip: +1 flat minion damage
+	DisplayName: Нагрудник из цветущей древесины
+	Tooltip: Увеличивает урон призывателя на 1 ед.
 }
 
 LushWoodHead: {
-	DisplayName: Lush Wood Helmet
-	Tooltip: +1 flat minion damage
+	DisplayName: Шлем из цветущей древесины
+	Tooltip: Увеличивает урон призывателя на 1 ед.
 }
 
 LushWoodLegs: {
-	DisplayName: Lush Wood Leggings
+	DisplayName: Поножи из цветущей древесины
 	Tooltip: ""
 }
 
 MysteriaChest: {
-	DisplayName: Mysteria Chestpiece
+	DisplayName: Нагрудник из мистернии
 	Tooltip:
 		'''
-		Increased mining speed
-		Increased tile and wall placement speed
+		Увеличивает скорость добычи
+		Увеличивает скорость установки блоков и стен
 		'''
 }
 
 MysteriaHelmet: {
-	DisplayName: Mysteria Veil
+	DisplayName: Фата из местернии
 	Tooltip:
 		'''
-		Increased mining speed
-		Increased tile and wall placement speed
-		Increased placement range
+		Увеличивает скорость добычи
+		Увеличивает скорость и дальность установки блоков и стен
 		'''
 }
 
 MysteriaLeggings: {
-	DisplayName: Mysteria Leggings
+	DisplayName: Поножи из мистернии
 	Tooltip:
 		'''
-		Increased mining speed
-		Increased tile and wall placement speed
+		Увеличивает скорость добычи
+		Увеличивает скорость установки блоков и стен
 		'''
 }
 
 VerdantChestplate: {
-	DisplayName: Growth Chestpiece
+	DisplayName: Нагрудник цветения
 	Tooltip:
 		'''
-		+7% minion damage
-		+1 max minion
+		Увеличивает урон призывателя на 7%
+		Увеличивает максимальное число миньонов на 1
 		'''
 }
 
 VerdantHelm: {
-	DisplayName: Growth Headdress
+	DisplayName: Головной убор цветения
 	Tooltip:
 		'''
-		+5% increased minion damage
-		Gives off a very small amount of light
+		Увеличивает урон призывателя на 5%
+		Вы будете излучать небольшое количество света
 		'''
 }
 
 VerdantLeggings: {
-	DisplayName: Growth Leggings
+	DisplayName: Поножи цветенея
 	Tooltip:
 		'''
-		Increased regen
-		+1 max minion
-		Grows plants under you as you walk
+		Увеличивает регенерацию здоровья
+		Увеличивает максимальное число миньонов на 1
+		На траве, по которой вы прошлись, начинают расти цветы
 		'''
 }
 
 AquamarineItem: {
-	DisplayName: Aquamarine
+	DisplayName: Аквамарин
 	Tooltip: ""
 }
 
 AquamarineTorchItem: {
-	DisplayName: Aquamarine Torch
+	DisplayName: Аквамариновый факел
 	Tooltip: ""
 }
 
 BackslateTileItem: {
-	DisplayName: Backslate
+	DisplayName: Пещерный сланец
 	Tooltip: ""
 }
 
 EmbeddedAquamarineItem: {
-	DisplayName: Aquamarine Lush Soil Block
+	DisplayName: Аквамариновая цветущая почва
 	Tooltip: ""
 }
 
 EmbeddedStoneAquamarineItem: {
-	DisplayName: Aquamarine Stone Block
+	DisplayName: Аквамариновый камень
 	Tooltip: ""
 }
 
 GemsparkAquamarineItem: {
-	DisplayName: Aquamarine Gemspark
+	DisplayName: Искристый аквамарин
 	Tooltip: ""
 }
 
 GemsparkAquamarineWallItem: {
-	DisplayName: Aquamarine Gemspark Wall
+	DisplayName: Искристая аквамариновая стена
 	Tooltip: ""
 }
 
 GemsparkAquamarineWallOfflineItem: {
-	DisplayName: Aquamarine Gemspark Wall (Offline)
+	DisplayName: Неактивная искристая аквамариновая стена
 	Tooltip: ""
 }
 
